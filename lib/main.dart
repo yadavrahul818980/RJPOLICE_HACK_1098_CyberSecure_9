@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cyber_secure/screens/splash_screen.dart';
+import 'package:cyber_secure/screens/loginscreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 255, 255, 255)),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      home: Login(),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
