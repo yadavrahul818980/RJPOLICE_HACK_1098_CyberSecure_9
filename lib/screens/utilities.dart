@@ -1,20 +1,67 @@
+// import 'dart:ui';
+
 import 'package:flutter/material.dart';
+
 // import 'package:shared_preferences/shared_preferences.dart';
 
 Widget button(text, height, width, context, page) {
+  // final screenHeight = MediaQuery.of(context).size.height;
+  // final screenWidth = MediaQuery.of(context).size.width;
+
   return GestureDetector(
     onTap: () {
       Navigator.push(context, MaterialPageRoute(builder: (context) => page));
     },
-    child: SizedBox(
-      height: height,
-      width: width,
-      child:CustomText(text: text, fontSize: 18,fontStyle:null, color:Colors.white)
-      // child: Image.asset(
-      //   image,
-      //   scale: 0.9,
-      // ),
-    ),
+    child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment(0.00, -1.00),
+            end: Alignment(0, 1),
+            colors: [Color(0xFF4E82EA), Color(0xFF245BC9)],
+          ),
+          // border: Border.all(width: 0),
+          borderRadius: BorderRadius.all(Radius.circular(7)),
+
+          boxShadow: [
+            // LinearGradient(colors: colors)
+            BoxShadow(
+                //  LinearGradient({this.begin=Alignment.centerLeft,
+                // })
+                // const LinearGradient(colors: colors) ,
+                // color: Color.fromARGB(226, 63, 146, 224).withOpacity(0.2),
+
+                // spreadRadius: 2,
+                // blurRadius: 5,
+                // offset: const Offset(0, 3),
+                ),
+          ],
+        ),
+        height: height,
+        width: width,
+        // child: CustomText(
+
+        //     text: text, fontSize: 18, fontStyle: null, color: Colors.white),
+
+        child: Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w500,
+              // height: 0,
+            ),
+          ),
+        )
+
+        // child: Image.asset(
+        //   image,
+        //   scale: 0.9,
+        // ),
+        ),
   );
 }
 
@@ -22,6 +69,7 @@ Widget button(text, height, width, context, page) {
 
 class CustomText extends StatelessWidget {
   final String text;
+  // final String Bold;
   final Color? color;
   final FontStyle? fontStyle;
   final double? fontSize;
@@ -31,6 +79,45 @@ class CustomText extends StatelessWidget {
   const CustomText({
     super.key,
     required this.text,
+    // this.Bold,
+    required this.fontStyle,
+    required this.color,
+    this.fontSize,
+    this.textAlign,
+    this.fontfamily,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // final screenHeight = MediaQuery.of(context).size.height;
+    // final screenWidth = MediaQuery.of(context).size.width;
+    return Text(
+      text,
+      style: TextStyle(
+        // fontFamily: ,
+        fontWeight: FontWeight.w500,
+        fontFamily: fontfamily,
+        color: color ?? Colors.white,
+        fontSize: fontSize ?? 10,
+        fontStyle: fontStyle ?? FontStyle.normal,
+      ),
+    );
+  }
+}
+
+class CustomText1 extends StatelessWidget {
+  final String text;
+  // final String Bold;
+  final Color? color;
+  final FontStyle? fontStyle;
+  final double? fontSize;
+  final TextAlign? textAlign;
+  final String? fontfamily;
+
+  const CustomText1({
+    super.key,
+    required this.text,
+    // this.Bold,
     required this.fontStyle,
     required this.color,
     this.fontSize,
@@ -44,6 +131,7 @@ class CustomText extends StatelessWidget {
       text,
       style: TextStyle(
         // fontFamily: ,
+        fontWeight: FontWeight.w600,
         fontFamily: fontfamily,
         color: color ?? Colors.white,
         fontSize: fontSize ?? 10,
@@ -97,14 +185,16 @@ class CustomText extends StatelessWidget {
 //     );
 //   }
 
-Widget buildtextfiled(
-    String text, BuildContext context, String hinttext, bool obscure) {
+Widget buildtextfiled(String image, String text, BuildContext context,
+    String hinttext, bool obscure) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       // SizedBox(width: 900),
       Padding(
-        padding: const EdgeInsets.only(left: 20.0),
+        padding: const EdgeInsets.only(left: 8.0),
         child: CustomText(
           text: text,
           color: const Color(0xFF00184A),
@@ -114,45 +204,61 @@ Widget buildtextfiled(
         ),
       ),
       Container(
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1))
+          decoration: BoxDecoration(
+              // color: Color(0xFFA0A0A0),
+              border: Border(
+            bottom: BorderSide(width: 1, color: Color(0xFFA0A0A0)),
+          )
 
-            // boxShadow: [
-            //   BoxShadow(
-            //       // color: Color.fromARGB(62, 254, 254, 254).withOpacity(0.2),
-            //       // spreadRadius: 2,
-            //       // blurRadius: 5,
-            //       // offset: const Offset(0, 3),
-            //       ),
-            // ],
-            ),
-        margin: const EdgeInsets.all(8.0),
-        child: TextFormField(
-          // controller: controller,
-          obscureText: obscure,
-          style: const TextStyle(color: Colors.black),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter a valid value';
-            }
-            return null;
-          },
-          decoration: InputDecoration(
-            fillColor: Color.fromARGB(0, 178, 199, 236),
-            filled: true,
-            hintText: hinttext,
-            hintStyle: const TextStyle(color: Colors.grey),
-            // focusedBorder: OutlineInputBorder(
-            //   borderRadius: BorderRadius.circular(10),
-            //   borderSide: BorderSide.none,
-            // ),
-            // enabledBorder: OutlineInputBorder(
-            //   borderRadius: BorderRadius.circular(10),
-            //   borderSide: BorderSide.none,
-            // ),
-            // suffixStyle: const TextStyle(color: Colors.indigo),
-          ),
-        ),
-      ),
+              // boxShadow: [
+              //   BoxShadow(
+              //       // color: Color.fromARGB(62, 254, 254, 254).withOpacity(0.2),
+              //       // spreadRadius: 2,
+              //       // blurRadius: 5,
+              //       // offset: const Offset(0, 3),
+              //       ),
+              // ],
+              ),
+          // margin: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: screenWidth * 0.9,
+            child: Row(children: [
+              Image.asset(
+                image,
+                height: screenHeight * 0.032,
+              ),
+              SizedBox(
+                width: screenWidth * 0.8,
+                child: TextFormField(
+                  // controller: controller,
+                  obscureText: obscure,
+                  style: const TextStyle(color: Colors.black),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a valid value';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    fillColor: Color.fromARGB(0, 45, 76, 130),
+                    filled: true,
+                    hintText: hinttext,
+                    hintStyle: const TextStyle(color: Color(0x4C172A48)),
+                    // border:
+                    // focusedBorder: OutlineInputBorder(
+                    //   borderRadius: BorderRadius.circular(10),
+                    //   borderSide: BorderSide(color: Color(0xFFA0A0A0)),
+                    // ),
+                    // enabledBorder: OutlineInputBorder(
+                    //   borderRadius: BorderRadius.circular(2),
+                    //   borderSide: BorderSide.none,
+                    // ),
+                    // suffixStyle: const TextStyle(color: Colors.indigo),
+                  ),
+                ),
+              ),
+            ]),
+          ))
     ],
   );
 }

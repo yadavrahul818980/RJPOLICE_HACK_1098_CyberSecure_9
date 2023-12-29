@@ -29,21 +29,6 @@ class _LoginState extends State<Login> {
             ))
       ],
     );
-    // return Stack(
-    //     children:[
-    //       BackgroundImage(),
-    //       Scaffold(
-    //         backgroundColor: Colors.transparent,
-    //         body: ListView(
-    // //   children: [buildheading(context)],
-    // // )
-    //       ),
-
-    // )]
-    // //     body: ListView(
-    // //   children: [buildheading(context)],
-    // // )
-    // );
   }
 
   Widget buildheading(BuildContext context) {
@@ -52,7 +37,7 @@ class _LoginState extends State<Login> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: screenHeight * 0.2),
+        SizedBox(height: screenHeight * 0.15),
         const CustomText(
           text: "CyberSecure",
           color: const Color(0xFF4E82EA),
@@ -60,8 +45,8 @@ class _LoginState extends State<Login> {
           fontStyle: null,
           fontfamily: '',
         ),
-        SizedBox(height: screenHeight * 0.08),
-        const CustomText(
+        SizedBox(height: screenHeight * 0.06),
+        const CustomText1(
           text: "Welcome",
           color: Color(0xFF00184A),
           fontSize: 22,
@@ -76,23 +61,44 @@ class _LoginState extends State<Login> {
           fontfamily: 'Poppins',
         ),
         SizedBox(
-          height: screenHeight * 0.1,
+          height: screenHeight * 0.08,
         ),
         buildtextfiled(
-          // 'assets/User.png',
+          'assets/User.png',
           "Name",
           context,
           "Rahul Yadav",
           false,
         ),
         buildtextfiled(
-          // 'assets/phoneNumber.png',
+          'assets/mingcute_idcard-fill.png',
           "Phone Number",
           context,
           "9058-958-389",
           false,
         ),
-        button("Sign In", 20.0, 300.0, context, Login())
+        Padding(
+          padding: EdgeInsets.only(
+              top: screenHeight * 0.03, bottom: screenHeight * 0.035),
+          child: Container(
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomText(
+                      text: 'Already Signed Up?',
+                      fontStyle: null,
+                      fontSize: 14,
+                      color: Color(0xFFA0A0A0)),
+                  CustomText(
+                      text: 'Login',
+                      fontStyle: null,
+                      fontSize: 14,
+                      color: const Color(0xFF4E82EA))
+                ]),
+          ),
+        ),
+        button("Sign In", 40.0, 320.0, context, Login())
       ],
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'dart:html';
 import 'package:cyber_secure/screens/splash_screen.dart';
 import 'package:cyber_secure/screens/loginscreen.dart';
+import 'package:cyber_secure/screens/otpVerification.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 255, 255, 255)),
         useMaterial3: true,
       ),
-      home: Login(),
+      home: otpVerification(),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
