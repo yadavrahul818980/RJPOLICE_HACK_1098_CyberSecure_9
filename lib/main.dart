@@ -1,3 +1,4 @@
+import 'package:cyber_secure/screens/personalInfo.dart';
 import 'package:cyber_secure/screens/profile.dart';
 import 'package:cyber_secure/screens/trends.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 255, 255, 255)),
         useMaterial3: true,
       ),
-      home: profile(),
+      home: personal(),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }

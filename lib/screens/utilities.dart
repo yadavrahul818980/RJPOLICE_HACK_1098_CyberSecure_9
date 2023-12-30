@@ -591,3 +591,64 @@ Widget settingBox(image, text1, context, page) {
             ))),
   );
 }
+
+Widget personalInfo(image, text1, text2, context, page) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
+
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+    },
+    child: Container(
+        // height: screenHeight * 0.1,
+        // width: screenWidth * width,
+        // decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+        child: Padding(
+            padding: const EdgeInsets.all(7.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    image,
+                    scale: 0.8,
+                    // height: screenHeight * 0.032,
+                  ),
+                  SizedBox(width: screenWidth * 0.02),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        text1,
+                        style: TextStyle(
+                          color: Color(0xFF212121),
+                          fontSize: 19,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          // height: 0,
+                        ),
+                      ),
+                      Container(
+                        width: screenWidth * 0.5,
+                        child: Text(text2,
+                            style: TextStyle(
+                              color: Color(0xFF727272),
+                              fontSize: 13.57,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                            )),
+                      ),
+                    ],
+                  ),
+                  // SizedBox(width: screenWidth * 0.15),
+                  // Icon(
+                  //   Icons.arrow_right_sharp,
+                  //   size: 38.0,
+                  // )
+                ],
+              ),
+            ))),
+  );
+}
