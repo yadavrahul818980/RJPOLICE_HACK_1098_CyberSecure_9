@@ -366,3 +366,182 @@ Widget newsBox(image, text1, height, width, h2, context, page) {
         )),
   );
 }
+
+Widget newsBox2(image, text1, text2, text3, height, width, h2, context, page) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
+
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+    },
+    child: Container(
+        height: screenHeight * height,
+        width: screenWidth * width,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+        child: Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Column(
+            children: [
+              Container(
+                height: screenHeight * h2,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  image: DecorationImage(
+                    image: AssetImage(image),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              // Image.asset(
+              //   image,
+              //   scale: scale,
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Container(
+                      width: screenWidth * 0.7,
+                      child: Text(
+                        text1,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Color(0xFF00184A),
+                          fontSize: 14,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          // height: 0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    Icons.bookmark_border_outlined,
+                    size: 22.0,
+                  )
+                ],
+              ),
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          text2,
+                          style: TextStyle(
+                            color: Color(0xFFA0A0A0),
+                            fontSize: 12,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            // height: 0.12,
+                          ),
+                        ),
+                        Text(
+                          text3,
+                          style: TextStyle(
+                            color: Color(0xFFA0A0A0),
+                            fontSize: 12,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            // height: 0.12,
+                          ),
+                        ),
+                      ]),
+                ),
+              )
+              // Text(
+              //   text2,
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(
+              //     color: Color(0xFF00184A),
+              //     fontSize: 12,
+              //     fontFamily: 'Poppins',
+              //     fontWeight: FontWeight.w400,
+              //     // height: 0,
+              //   ),
+              // ),
+            ],
+          ),
+        )),
+  );
+}
+
+Widget searchBar(BuildContext context, String hinttext, bool obscure) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    // crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Container(
+          decoration: BoxDecoration(
+            // color: Color(0xFFA0A0A0),
+            borderRadius: BorderRadius.circular(5),
+            // color: Colors.black,
+            border: Border.all(width: 1, color: Colors.black),
+            //   border: Border(
+            // bottom: BorderSide(width: 1, color: Color(0xFFA0A0A0)),
+            // )
+
+            // boxShadow: [
+            //   BoxShadow(
+            //       // color: Color.fromARGB(62, 254, 254, 254).withOpacity(0.2),
+            //       // spreadRadius: 2,
+            //       // blurRadius: 5,
+            //       // offset: const Offset(0, 3),
+            //       ),
+            // ],
+          ),
+          // margin: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: screenWidth * 0.9,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Row(children: [
+                Image.asset(
+                  'assets/search.png',
+                  height: screenHeight * 0.032,
+                ),
+                SizedBox(
+                  width: screenWidth * 0.7,
+                  child: TextFormField(
+                    // controller: controller,
+                    obscureText: obscure,
+                    style: const TextStyle(color: Colors.black),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a valid value';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      fillColor: Color.fromARGB(0, 45, 76, 130),
+                      filled: true,
+                      hintText: hinttext,
+                      hintStyle: const TextStyle(color: Color(0x4C172A48)),
+                      // border:
+                      // focusedBorder: OutlineInputBorder(
+                      //   borderRadius: BorderRadius.circular(10),
+                      //   borderSide: BorderSide(color: Color(0xFFA0A0A0)),
+                      // ),
+                      // enabledBorder: OutlineInputBorder(
+                      //   borderRadius: BorderRadius.circular(2),
+                      //   borderSide: BorderSide.none,
+                      // ),
+                      // suffixStyle: const TextStyle(color: Colors.indigo),
+                    ),
+                  ),
+                ),
+                Image.asset(
+                  'assets/filter.png',
+                  height: screenHeight * 0.032,
+                ),
+              ]),
+            ),
+          ))
+    ],
+  );
+}

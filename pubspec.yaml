@@ -77,6 +77,8 @@ flutter:
     - assets/emerging.png
     - assets/digital.png
     - assets/Data.png
+    - assets/search.png
+    - assets/filter.png
 
   #   - images/a_dot_ham.jpeg
 
