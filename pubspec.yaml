@@ -79,6 +79,8 @@ flutter:
     - assets/Data.png
     - assets/search.png
     - assets/filter.png
+    - assets/logOut.png
+    - assets/girl.png
 
   #   - images/a_dot_ham.jpeg
 
