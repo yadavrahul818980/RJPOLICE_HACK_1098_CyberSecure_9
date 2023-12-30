@@ -262,3 +262,107 @@ Widget buildtextfiled(String image, String text, BuildContext context,
     ],
   );
 }
+
+Widget optionBox(image, text1, text2, height, context, page, scale) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
+
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+    },
+    child: Container(
+        height: screenHeight * height,
+        child: Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Column(
+            children: [
+              Image.asset(
+                image,
+                scale: scale,
+              ),
+              Text(
+                text1,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF00184A),
+                  fontSize: 12,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400,
+                  // height: 0,
+                ),
+              ),
+              Text(
+                text2,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF00184A),
+                  fontSize: 12,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400,
+                  // height: 0,
+                ),
+              ),
+            ],
+          ),
+        )),
+  );
+}
+
+Widget newsBox(image, text1, height, width, h2, context, page) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
+
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+    },
+    child: Container(
+        height: screenHeight * height,
+        width: screenWidth * width,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+        child: Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Column(
+            children: [
+              Container(
+                height: screenHeight * h2,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  image: DecorationImage(
+                    image: AssetImage(image),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              // Image.asset(
+              //   image,
+              //   scale: scale,
+              // ),
+              Text(
+                text1,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: Color(0xFF00184A),
+                  fontSize: 14,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500,
+                  // height: 0,
+                ),
+              ),
+              // Text(
+              //   text2,
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(
+              //     color: Color(0xFF00184A),
+              //     fontSize: 12,
+              //     fontFamily: 'Poppins',
+              //     fontWeight: FontWeight.w400,
+              //     // height: 0,
+              //   ),
+              // ),
+            ],
+          ),
+        )),
+  );
+}
