@@ -1,3 +1,4 @@
+import 'package:cyber_secure/screens/profile.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:flutter/material.dart';
 
@@ -80,7 +81,7 @@ class _trendsPageState extends State<trendsPage> {
                       0.94,
                       0.21,
                       context,
-                      trendsPage()),
+                      profile()),
                 ],
               ),
             ),

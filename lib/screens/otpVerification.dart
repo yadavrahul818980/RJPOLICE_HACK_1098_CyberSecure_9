@@ -1,27 +1,57 @@
+import 'package:cyber_secure/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:cyber_secure/screens/background_img.dart';
 import 'package:pinput/pinput.dart';
+// import 'package:email_auth/email_auth.dart';
+import 'package:cyber_secure/screens/loginscreen.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class otpVerification extends StatefulWidget {
-  const otpVerification({super.key});
+  final String email;
+  const otpVerification({Key? key, required this.email}) : super(key: key);
 
   @override
   State<otpVerification> createState() => _otpVerificationState();
 }
 
 class _otpVerificationState extends State<otpVerification> {
+  final TextEditingController _otpController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  String? errorMessage;
+  void _otpVerify() async {
+    final url = Uri.https('cyber-secure.onrender.com', '/v1/auth/verifyOtp');
+    // http.post(url,headers:{}, body: json.encode({
+    final Map<String, String> requestBody = {
+      'email': widget.email,
+      'name': _otpController.text,
+    };
+    try {
+      final response = await http.post(
+        url,
+        headers: <String, String>{'Content-Type': 'application/json'},
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        print('Success: ${response.body}');
+      } else {
+        setState(() {
+          errorMessage = 'Invalid OTP. Please try again.';
+        });
+        print('Failed: ${response.statusCode}');
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'error: $e';
+      });
+      print('Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final defaultPinTheme = PinTheme(
-    //     width: 60,
-    //     height: 60,
-    //     textStyle: TextStyle(fontSize: 22, color: Colors.black),
-    //     decoration: BoxDecoration(
-
-    //       borderRadius: BorderRadius.circular(13),
-    //       border: Border.all(color: Color(0xFFC2C3CB),width: 1.5)
-    //     ));
     return Stack(
       children: [
         Container(
@@ -39,21 +69,6 @@ class _otpVerificationState extends State<otpVerification> {
             ))
       ],
     );
-    // return Stack(
-    //     children:[
-    //       BackgroundImage(),
-    //       Scaffold(
-    //         backgroundColor: Colors.transparent,
-    //         body: ListView(
-    // //   children: [buildheading(context)],
-    // // )
-    //       ),
-
-    // )]
-    // //     body: ListView(
-    // //   children: [buildheading(context)],
-    // // )
-    // );
   }
 
   Widget buildheading(BuildContext context) {
@@ -66,6 +81,7 @@ class _otpVerificationState extends State<otpVerification> {
             border: Border.all(color: Color(0xFFC2C3CB), width: 1.5)));
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -96,14 +112,14 @@ class _otpVerificationState extends State<otpVerification> {
           height: screenHeight * 0.035,
         ),
         CustomText1(
-          text: '+ 91 9058 958 389',
+          text: widget.email,
           fontStyle: null,
           color: Color(0xFFACADB9),
           fontSize: 15,
         ),
         SizedBox(height: screenHeight * 0.035),
         Pinput(
-            length: 4,
+            length: 6,
             defaultPinTheme: defaultPinTheme,
             focusedPinTheme: defaultPinTheme.copyWith(
                 decoration: defaultPinTheme.decoration!
@@ -116,8 +132,21 @@ class _otpVerificationState extends State<otpVerification> {
           fontStyle: null,
           fontfamily: 'Poppins',
         ),
+        if (errorMessage != null) // Display error message if it exists
+          Text(
+            errorMessage!,
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 16,
+            ),
+          ),
         SizedBox(height: screenHeight * 0.04),
-        button("Verify", 40.0, 320.0, context, otpVerification())
+        // button("Verify", 40.0, 320.0, context, () {
+        //   if (errorMessage == null) {
+        //   home();
+        //   }
+        // }, _otpVerify)
+        button("Verify", 40.0, 320.0, context,null, _otpVerify)
       ],
     );
   }

@@ -1,3 +1,5 @@
+import 'package:cyber_secure/screens/trends.dart';
+import 'package:cyber_secure/view/view_model/news_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:cyber_secure/screens/background_img.dart';
@@ -32,6 +34,8 @@ class _homeState extends State<home> {
   }
 
   Widget buildheading(BuildContext context) {
+    NewsViewModel newsViewModel = NewsViewModel();
+
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
@@ -179,7 +183,7 @@ class _homeState extends State<home> {
                       0.7,
                       0.18,
                       context,
-                      home()),
+                      trendsPage()),
                 ]),
           )
         ],

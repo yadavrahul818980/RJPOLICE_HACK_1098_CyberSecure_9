@@ -4,50 +4,36 @@ import 'package:flutter/material.dart';
 
 // import 'package:shared_preferences/shared_preferences.dart';
 
-Widget button(text, height, width, context, page) {
+Widget button(String text, double height,double  width,BuildContext context, page,void Function() onTapFunction) {
   // final screenHeight = MediaQuery.of(context).size.height;
   // final screenWidth = MediaQuery.of(context).size.width;
 
   return GestureDetector(
-    onTap: () {
+    onTap: () async {
+       onTapFunction();
       Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+      // onTapFunction();
     },
     child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment(0.00, -1.00),
             end: Alignment(0, 1),
             colors: [Color(0xFF4E82EA), Color(0xFF245BC9)],
           ),
-          // border: Border.all(width: 0),
           borderRadius: BorderRadius.all(Radius.circular(7)),
-
           boxShadow: [
-            // LinearGradient(colors: colors)
-            BoxShadow(
-                //  LinearGradient({this.begin=Alignment.centerLeft,
-                // })
-                // const LinearGradient(colors: colors) ,
-                // color: Color.fromARGB(226, 63, 146, 224).withOpacity(0.2),
-
-                // spreadRadius: 2,
-                // blurRadius: 5,
-                // offset: const Offset(0, 3),
-                ),
+            BoxShadow(),
           ],
         ),
         height: height,
         width: width,
-        // child: CustomText(
-
-        //     text: text, fontSize: 18, fontStyle: null, color: Colors.white),
-
         child: Padding(
           padding: const EdgeInsets.all(7.0),
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontFamily: 'Poppins',
@@ -55,13 +41,7 @@ Widget button(text, height, width, context, page) {
               // height: 0,
             ),
           ),
-        )
-
-        // child: Image.asset(
-        //   image,
-        //   scale: 0.9,
-        // ),
-        ),
+        )),
   );
 }
 
@@ -186,7 +166,7 @@ class CustomText1 extends StatelessWidget {
 //   }
 
 Widget buildtextfiled(String image, String text, BuildContext context,
-    String hinttext, bool obscure) {
+    String hinttext, bool obscure,controller) {
   final screenHeight = MediaQuery.of(context).size.height;
   final screenWidth = MediaQuery.of(context).size.width;
   return Column(
@@ -230,7 +210,7 @@ Widget buildtextfiled(String image, String text, BuildContext context,
               SizedBox(
                 width: screenWidth * 0.8,
                 child: TextFormField(
-                  // controller: controller,
+                  controller: controller,
                   obscureText: obscure,
                   style: const TextStyle(color: Colors.black),
                   validator: (value) {

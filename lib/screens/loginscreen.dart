@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:cyber_secure/screens/utilities.dart';
+import 'package:cyber_secure/screens/otpVerification.dart';
 import 'package:cyber_secure/screens/background_img.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -10,6 +13,38 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+ 
+  void _saveItem() async {
+    final url = Uri.https('cyber-secure.onrender.com', '/v1/auth/register');
+    // http.post(url,headers:{}, body: json.encode({
+    final Map<String, String> requestBody = {
+      'email': _emailController.text,
+      'name': _nameController.text,
+    };
+    try {
+      final response = await http.post(
+        url,
+        headers: <String, String>{'Content-Type': 'application/json'},
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  otpVerification(email: _emailController.text),
+            ));
+      } else {
+        print('Failed: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -69,6 +104,7 @@ class _LoginState extends State<Login> {
           context,
           "Rahul Yadav",
           false,
+          _nameController,
         ),
         buildtextfiled(
           'assets/mingcute_idcard-fill.png',
@@ -76,6 +112,7 @@ class _LoginState extends State<Login> {
           context,
           "9058-958-389",
           false,
+          _emailController,
         ),
         Padding(
           padding: EdgeInsets.only(
@@ -98,7 +135,9 @@ class _LoginState extends State<Login> {
                 ]),
           ),
         ),
-        button("Sign In", 40.0, 320.0, context, Login())
+        button("Sign In", 40.0, 320.0, context, otpVerification(email:_emailController.text), () {
+          _saveItem();
+        })
       ],
     );
   }

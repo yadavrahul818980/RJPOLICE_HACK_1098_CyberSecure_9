@@ -1,4 +1,5 @@
 import 'package:cyber_secure/screens/utilities.dart';
+import 'package:cyber_secure/screens/personalInfo.dart';
 import 'package:flutter/material.dart';
 
 class profile extends StatefulWidget {
@@ -66,7 +67,7 @@ class _profileState extends State<profile> {
             color: Color(0xFF323142),
             fontSize: 14,
           ),
-          settingBox('assets/logOut.png', 'Personal Info', context, profile()),
+          settingBox('assets/logOut.png', 'Personal Info', context, personal()),
           settingBox('assets/logOut.png', 'Personal Info', context, profile()),
           settingBox('assets/logOut.png', 'Personal Info', context, profile()),
           settingBox('assets/logOut.png', 'Personal Info', context, profile()),
