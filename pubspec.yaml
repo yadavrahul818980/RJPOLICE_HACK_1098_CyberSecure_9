@@ -35,6 +35,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.0.2
+  youtube_player_flutter: ^8.1.2
+  dotted_border: ^2.0.2
+  google_nav_bar: ^5.0.6
+  curved_navigation_bar: ^1.0.3
   # velocity_x: ^3.6.0
 # dependencies:
   
@@ -51,7 +55,7 @@ dependencies:
   flutter_chat_types: ^3.6.2
   flutter_chat_ui:
   web_socket_channel: ^2.4.0
-  image_picker: ^1.0.0
+  image_picker: ^0.8.4+4
   intl: ^0.18.1
   uuid:
   pinput: ^3.0.1
@@ -116,6 +120,14 @@ flutter:
     - assets/Chatbot.png
     - assets/cybermitr.png
     - assets/return.png
+    - assets/Chatbot.png
+    - assets/cybermitr.png
+    - assets/icon_profile.png
+    - assets/complain.png
+    - assets/Black.png
+    - assets/Ellipse 873.png
+    - assets/Ellipse 874.png
+    
 
   #   - images/a_dot_ham.jpeg
 

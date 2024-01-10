@@ -1,4 +1,5 @@
 import 'package:cyber_secure/screens/home.dart';
+import 'package:cyber_secure/screens/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:cyber_secure/screens/background_img.dart';
@@ -146,7 +147,7 @@ class _otpVerificationState extends State<otpVerification> {
         //   home();
         //   }
         // }, _otpVerify)
-        button("Verify", 40.0, 320.0, context,home(), _otpVerify)
+        button("Verify", 40.0, 320.0, context,NavBar(), _otpVerify)
       ],
     );
   }

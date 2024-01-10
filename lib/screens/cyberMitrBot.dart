@@ -28,19 +28,19 @@ class _cyberMitrState extends State<cyberMitr> {
               title: Container(
                 child: Row(
                   children: [
-                    Container(
-                        child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => home()));
-                      },
-                      child: Image.asset(
-                        'assets/return.png',
-                        height: screenHeight * 0.05,
-                        // fit: BoxFit.cover,
-                        scale: 0.61,
-                      ),
-                    )),
+                    // Container(
+                    //     child: GestureDetector(
+                    //   onTap: () {
+                    //     Navigator.push(context,
+                    //         MaterialPageRoute(builder: (context) => home()));
+                    //   },
+                    //   child: Image.asset(
+                    //     'assets/return.png',
+                    //     height: screenHeight * 0.05,
+                    //     // fit: BoxFit.cover,
+                    //     scale: 0.61,
+                    //   ),
+                    // )),
                     Container(
                       child: Image.asset(
                         'assets/cybermitr.png',
@@ -129,7 +129,8 @@ class _TextOnlyState extends State<TextOnly> {
 
     gemini
         .generateFromText(
-            "now lets have a role play in which you will be my lawyer and i will ask you a question related to law or any legal advise related to legal matters and you need to reply in details in a step guid and you need to do that in a proper documentation but if the question is not related to law or any legal matters then you will reply we please ask a relevant question so the next question will follow this guideline , remember that if a question is not related to law or can not be related to law then do not answer it In any case if question is not irrevelant fust return 'I can only help you with legal advices only'$query")
+          "u will be very specific and personalized according to the  kind of cybercrime fraud happend with the user and will not be answering any else question related to any othher category , strictly u will answer in the speciific lang in which user will ask not any other question will be entertain by u$query")
+            // "now lets have a role play in which you will be my application chatbot called cyberMitr & application name is cyber secure  and i will ask you  questions related to cybercrime prevention or any legal advise related to legal matters and you need to reply in details in a step guid and you need to do that in a proper documentation but if the question is not related to law or any legal matters then you will reply we please ask a relevant question so the next question will follow this guideline , remember that if a question is not related to law or can not be related to law then do not answer it In any case if question is not irrevelant fust return 'I can only help you with legal advices only'$query")
         .then((value) {
       setState(() {
         loading = false;

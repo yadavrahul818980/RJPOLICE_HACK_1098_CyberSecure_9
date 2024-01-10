@@ -667,3 +667,120 @@ Widget personalInfo(image, text1, text2, context, page) {
             ))),
   );
 }
+
+
+
+// import 'package:flutter/material.dart';
+Widget UserInput(text){
+  return Container(
+    child: TextFormField(
+      textInputAction: TextInputAction.next,
+      style: const TextStyle(
+        color: Color(0xff00194A),
+      ),
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.fromLTRB(20,15,20,15),
+        labelText: text,
+        labelStyle: const TextStyle(
+            color: Color(0xff617193),
+          fontSize: 17.9,
+          fontWeight: FontWeight.w500
+        ),
+        border: OutlineInputBorder(
+          // borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            color: Color(0xff00194A),
+            width: 1,
+          ),
+        ),
+
+        focusedBorder: OutlineInputBorder(
+          // borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            color: Color(0xff00194A),
+            width: 1,
+          ),
+        ),
+
+        enabledBorder: OutlineInputBorder(
+          // borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            color: Color(0xff00194A),
+            width: 1,
+
+          ) ,
+        ),
+      ),),
+  );
+}
+
+class DottedBorderPainter extends CustomPainter {
+  final Color color;
+  final double strokeWidth;
+
+  DottedBorderPainter({
+    required this.color,
+    required this.strokeWidth,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = color
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    final double dashWidth = 5;
+    final double dashSpace = 5;
+
+    // Draw top border
+    double startX = strokeWidth / 2;
+    while (startX < size.width) {
+      if (startX + dashWidth > size.width) {
+        canvas.drawLine(Offset(startX, 0), Offset(size.width, 0), paint);
+      } else {
+        canvas.drawLine(Offset(startX, 0), Offset(startX + dashWidth, 0), paint);
+      }
+      startX += dashWidth + dashSpace;
+    }
+
+    // Draw left border
+    double startY = strokeWidth / 2;
+    while (startY < size.height) {
+      if (startY + dashWidth > size.height) {
+        canvas.drawLine(Offset(0, startY), Offset(0, size.height), paint);
+      } else {
+        canvas.drawLine(Offset(0, startY), Offset(0, startY + dashWidth), paint);
+      }
+      startY += dashWidth + dashSpace;
+    }
+
+    // Draw bottom border
+    double endX = size.width - strokeWidth / 2;
+    while (endX > 0) {
+      if (endX - dashWidth < 0) {
+        canvas.drawLine(Offset(0, size.height), Offset(endX, size.height), paint);
+      } else {
+        canvas.drawLine(Offset(endX, size.height), Offset(endX - dashWidth, size.height), paint);
+      }
+      endX -= dashWidth + dashSpace;
+    }
+
+    // Draw right border
+    double endY = size.height - strokeWidth / 2;
+    while (endY > 0) {
+      if (endY - dashWidth < 0) {
+        canvas.drawLine(Offset(size.width, 0), Offset(size.width, endY), paint);
+      } else {
+        canvas.drawLine(Offset(size.width, endY), Offset(size.width, endY - dashWidth), paint);
+      }
+      endY -= dashWidth + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
+}

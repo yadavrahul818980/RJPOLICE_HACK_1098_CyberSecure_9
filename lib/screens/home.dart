@@ -1,5 +1,7 @@
 import 'package:cyber_secure/modules/news_channels_headline_models.dart';
 import 'package:cyber_secure/screens/cyberMitrBot.dart';
+import 'package:cyber_secure/screens/databreach.dart';
+import 'package:cyber_secure/screens/financilaFraud.dart';
 import 'package:cyber_secure/screens/trends.dart';
 import 'package:cyber_secure/view/view_model/news_view_model.dart';
 import 'package:flutter/material.dart';
@@ -113,13 +115,14 @@ class _homeState extends State<home> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
+                  // assets/Data.png
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      optionBox('assets/Financial.png', 'Financial', 'Fraud',
-                          0.15, context, home(), 4.0),
-                      optionBox('assets/Data.png', 'Data Breach &',
-                          'Identity theft', 0.15, context, home(), 4.0),
+                      optionBox('assets/Data.png', 'Data', 'Breach',
+                          0.15, context, databreach(), 4.0),
+                      optionBox('assets/Financial.png', 'Financial Fraud',
+                          '', 0.15, context, financialFraud(), 4.0),
                       optionBox('assets/medal.png', 'Crypto', 'Scams', 0.15,
                           context, home(), 1.0),
                     ],
