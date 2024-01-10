@@ -1,8 +1,13 @@
+import 'package:cyber_secure/modules/news_channels_headline_models.dart';
+import 'package:cyber_secure/screens/cyberMitrBot.dart';
 import 'package:cyber_secure/screens/trends.dart';
 import 'package:cyber_secure/view/view_model/news_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:cyber_secure/screens/background_img.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:cyber_secure/screens/chatmessage.dart';
+import 'package:cyber_secure/screens/trendsSearch.dart';
 
 class home extends StatefulWidget {
   const home({super.key});
@@ -141,50 +146,94 @@ class _homeState extends State<home> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
+                const CustomText(
                     text: 'Latest Scam Trends',
                     fontStyle: null,
                     color: Color(0xFF00184A),
                     fontSize: 16),
-                CustomText(
-                  text: 'See All',
-                  fontStyle: null,
-                  color: Color(0xFF245BC9),
-                  fontSize: 12,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CustomDropDownWidget()));
+                  },
+                  child: CustomText(
+                    text: 'See All',
+                    fontStyle: null,
+                    color: Color(0xFF245BC9),
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
+          SizedBox(
+              height: screenHeight * 0.28,
+              width: screenWidth,
+              // child: SingleChildScrollView(
+              //     scrollDirection: Axis.horizontal,
+              // height: screenHeight * 0.28,
+              // width: screenWidth,
+              child: FutureBuilder<NewsChannelsHeadlineModels>(
+                  future: newsViewModel.fetchNewsChannelHeadlineApi(),
+                  builder: (BuildContext context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: SpinKitCircle(
+                          color: Colors.blue,
+                          size: 50,
+                        ),
+                      );
+                    } else {
+                      return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: snapshot.data!.articles!.length,
+                          itemBuilder: (context, index) {
+                            return newsBox(snapshot, index, '', 0.28, 0.7, 0.18,
+                                context, null);
+                          });
+                    }
+                  })
+              // child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //     children: [
+              //       newsBox(
+              //           'assets/info1.png',
+              //           '"Deepfakes":The Scary New Scam Using Artificial Intelligence',
+              //           0.28,
+              //           0.7,
+              //           0.18,
+              //           context,
+              //           home()),
+              //       newsBox(
+              //           'assets/info1.png',
+              //           '"Deepfakes":The Scary New Scam Using Artificial Intelligence',
+              //           0.28,
+              //           0.7,
+              //           0.18,
+              //           context,
+              //           home()),
+              //       newsBox(
+              //           'assets/info1.png',
+              //           '"Deepfakes":The Scary New Scam Using Artificial Intelligence',
+              //           0.28,
+              //           0.7,
+              //           0.18,
+              //           context,
+              //           trendsPage()),
+              //     ]),
+              ),
+          Container(
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  newsBox(
-                      'assets/info1.png',
-                      '"Deepfakes":The Scary New Scam Using Artificial Intelligence',
-                      0.28,
-                      0.7,
-                      0.18,
-                      context,
-                      home()),
-                  newsBox(
-                      'assets/info1.png',
-                      '"Deepfakes":The Scary New Scam Using Artificial Intelligence',
-                      0.28,
-                      0.7,
-                      0.18,
-                      context,
-                      home()),
-                  newsBox(
-                      'assets/info1.png',
-                      '"Deepfakes":The Scary New Scam Using Artificial Intelligence',
-                      0.28,
-                      0.7,
-                      0.18,
-                      context,
-                      trendsPage()),
-                ]),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: screenWidth * 0.6,
+                ),
+                buttonchat('assets/Chatbot.png', context, cyberMitr()),
+              ],
+            ),
           )
         ],
       ),

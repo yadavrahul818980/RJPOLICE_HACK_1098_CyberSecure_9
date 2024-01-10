@@ -20,7 +20,7 @@ class _otpVerificationState extends State<otpVerification> {
   final TextEditingController _otpController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   String? errorMessage;
-  void _otpVerify() async {
+    Future<void> _otpVerify() async {
     final url = Uri.https('cyber-secure.onrender.com', '/v1/auth/verifyOtp');
     // http.post(url,headers:{}, body: json.encode({
     final Map<String, String> requestBody = {
@@ -146,7 +146,7 @@ class _otpVerificationState extends State<otpVerification> {
         //   home();
         //   }
         // }, _otpVerify)
-        button("Verify", 40.0, 320.0, context,null, _otpVerify)
+        button("Verify", 40.0, 320.0, context,home(), _otpVerify)
       ],
     );
   }

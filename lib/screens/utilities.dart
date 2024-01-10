@@ -1,17 +1,22 @@
 // import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // import 'package:shared_preferences/shared_preferences.dart';
 
-Widget button(String text, double height,double  width,BuildContext context, page,void Function() onTapFunction) {
+Widget button(String text, double height, double width, BuildContext context,
+    page, Future<void> Function() onTapFunction) {
   // final screenHeight = MediaQuery.of(context).size.height;
   // final screenWidth = MediaQuery.of(context).size.width;
 
   return GestureDetector(
     onTap: () async {
-       onTapFunction();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+      await onTapFunction();
+      if (context.mounted) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+      }
       // onTapFunction();
     },
     child: Container(
@@ -40,6 +45,42 @@ Widget button(String text, double height,double  width,BuildContext context, pag
               fontWeight: FontWeight.w500,
               // height: 0,
             ),
+          ),
+        )),
+  );
+}
+
+Widget buttonchat(String image, BuildContext context, page) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
+
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+    },
+    // onTapFunction();
+
+    child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment(0.00, -1.00),
+            end: Alignment(0, 1),
+            colors: [Color(0xFF4E82EA), Color(0xFF245BC9)],
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+          boxShadow: [
+            BoxShadow(),
+          ],
+        ),
+        height: screenHeight * 0.1,
+        width: screenWidth * 0.2,
+        child: Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Image.asset(
+            image,
+            // height: screenHeight * 0.1,
+            fit: BoxFit.cover,
+            scale: 1,
           ),
         )),
   );
@@ -166,7 +207,7 @@ class CustomText1 extends StatelessWidget {
 //   }
 
 Widget buildtextfiled(String image, String text, BuildContext context,
-    String hinttext, bool obscure,controller) {
+    String hinttext, bool obscure, controller) {
   final screenHeight = MediaQuery.of(context).size.height;
   final screenWidth = MediaQuery.of(context).size.width;
   return Column(
@@ -289,7 +330,7 @@ Widget optionBox(image, text1, text2, height, context, page, scale) {
   );
 }
 
-Widget newsBox(image, text1, height, width, h2, context, page) {
+Widget newsBox(snapshot, index, text1, height, width, h2, context, page) {
   final screenHeight = MediaQuery.of(context).size.height;
   final screenWidth = MediaQuery.of(context).size.width;
 
@@ -307,20 +348,27 @@ Widget newsBox(image, text1, height, width, h2, context, page) {
             children: [
               Container(
                 height: screenHeight * h2,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  image: DecorationImage(
-                    image: AssetImage(image),
+                child: CachedNetworkImage(
+                    imageUrl:
+                        snapshot.data.articles![index].urlToImage.toString(),
                     fit: BoxFit.cover,
-                  ),
-                ),
+                    placeholder: (context, url) => Container(
+                          child: spinKit2,
+                        )),
+                // errorWidge/t:(context)
+                // decoration: BoxDecoration(
+                //   borderRadius: BorderRadius.circular(6),
+                //   // image: DecorationImage(
+                //   //   image: AssetImage(image),
+                //   //   fit: BoxFit.cover,
+                //   // ),
+                //   child:ChacheNetworkImage()
+                // ),
               ),
-              // Image.asset(
-              //   image,
-              //   scale: scale,
-              // ),
               Text(
-                text1,
+                snapshot.data!.articles![index].title.toString(),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color: Color(0xFF00184A),
@@ -330,31 +378,25 @@ Widget newsBox(image, text1, height, width, h2, context, page) {
                   // height: 0,
                 ),
               ),
-              // Text(
-              //   text2,
-              //   textAlign: TextAlign.center,
-              //   style: TextStyle(
-              //     color: Color(0xFF00184A),
-              //     fontSize: 12,
-              //     fontFamily: 'Poppins',
-              //     fontWeight: FontWeight.w400,
-              //     // height: 0,
-              //   ),
-              // ),
             ],
           ),
         )),
   );
 }
 
-Widget newsBox2(image, text1, text2, text3, height, width, h2, context, page) {
+const spinKit2 = SpinKitFadingCircle(
+  color: Colors.blue,
+  size: 50,
+);
+
+Widget newsBox2(snapshot, index, text2, height, width, context) {
   final screenHeight = MediaQuery.of(context).size.height;
   final screenWidth = MediaQuery.of(context).size.width;
-
+  // final format = DateFormat('MMMM,dd,yyyy');
   return GestureDetector(
-    onTap: () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
-    },
+    // onTap: () {
+    //   Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+    // },
     child: Container(
         height: screenHeight * height,
         width: screenWidth * width,
@@ -364,44 +406,60 @@ Widget newsBox2(image, text1, text2, text3, height, width, h2, context, page) {
           child: Column(
             children: [
               Container(
-                height: screenHeight * h2,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  image: DecorationImage(
-                    image: AssetImage(image),
+                height: screenHeight * 0.18,
+                width: screenWidth * 0.9,
+                // decoration: BoxDecoration(
+                // borderRadius: BorderRadius.circular(6),
+                child: CachedNetworkImage(
+                    imageUrl:
+                        snapshot.data.articles![index].urlToImage.toString(),
                     fit: BoxFit.cover,
-                  ),
-                ),
+                    placeholder: (context, url) => Container(
+                          child: spinKit2,
+                        )),
+                // image: DecorationImage(
+                //   image: AssetImage(image),
+                //   fit: BoxFit.cover,
+                // ),
+                // ),
+              ),
+              SizedBox(
+                height: screenHeight * 0.005,
               ),
               // Image.asset(
               //   image,
               //   scale: scale,
               // ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      width: screenWidth * 0.7,
-                      child: Text(
-                        text1,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: Color(0xFF00184A),
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          // height: 0,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        width: screenWidth * 0.7,
+                        child: Text(
+                          snapshot.data!.articles![index].title.toString(),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: Color(0xFF00184A),
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                            // height: 0,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Icon(
-                    Icons.bookmark_border_outlined,
-                    size: 22.0,
-                  )
-                ],
+                    Icon(
+                      Icons.bookmark_border_outlined,
+                      size: 22.0,
+                    )
+                  ],
+                ),
               ),
               Container(
                 child: Padding(
@@ -411,6 +469,10 @@ Widget newsBox2(image, text1, text2, text3, height, width, h2, context, page) {
                       children: [
                         Text(
                           text2,
+                          // snapshot.data!.articles![index].title.toString(),
+                          // maxLines: 2,
+                          // overflow: TextOverflow.ellipsis,
+                          // textAlign: TextAlign.left,
                           style: TextStyle(
                             color: Color(0xFFA0A0A0),
                             fontSize: 12,
@@ -419,16 +481,16 @@ Widget newsBox2(image, text1, text2, text3, height, width, h2, context, page) {
                             // height: 0.12,
                           ),
                         ),
-                        Text(
-                          text3,
-                          style: TextStyle(
-                            color: Color(0xFFA0A0A0),
-                            fontSize: 12,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            // height: 0.12,
-                          ),
-                        ),
+                        // Text(
+                        //   text3,
+                        //   style: TextStyle(
+                        //     color: Color(0xFFA0A0A0),
+                        //     fontSize: 12,
+                        //     fontFamily: 'Poppins',
+                        //     fontWeight: FontWeight.w400,
+                        //     // height: 0.12,
+                        //   ),
+                        // ),
                       ]),
                 ),
               )
@@ -454,28 +516,12 @@ Widget searchBar(BuildContext context, String hinttext, bool obscure) {
   final screenWidth = MediaQuery.of(context).size.width;
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    // crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Container(
           decoration: BoxDecoration(
-            // color: Color(0xFFA0A0A0),
             borderRadius: BorderRadius.circular(5),
-            // color: Colors.black,
             border: Border.all(width: 1, color: Colors.black),
-            //   border: Border(
-            // bottom: BorderSide(width: 1, color: Color(0xFFA0A0A0)),
-            // )
-
-            // boxShadow: [
-            //   BoxShadow(
-            //       // color: Color.fromARGB(62, 254, 254, 254).withOpacity(0.2),
-            //       // spreadRadius: 2,
-            //       // blurRadius: 5,
-            //       // offset: const Offset(0, 3),
-            //       ),
-            // ],
           ),
-          // margin: const EdgeInsets.all(8.0),
           child: SizedBox(
             width: screenWidth * 0.9,
             child: Padding(
@@ -488,7 +534,6 @@ Widget searchBar(BuildContext context, String hinttext, bool obscure) {
                 SizedBox(
                   width: screenWidth * 0.7,
                   child: TextFormField(
-                    // controller: controller,
                     obscureText: obscure,
                     style: const TextStyle(color: Colors.black),
                     validator: (value) {
@@ -502,16 +547,6 @@ Widget searchBar(BuildContext context, String hinttext, bool obscure) {
                       filled: true,
                       hintText: hinttext,
                       hintStyle: const TextStyle(color: Color(0x4C172A48)),
-                      // border:
-                      // focusedBorder: OutlineInputBorder(
-                      //   borderRadius: BorderRadius.circular(10),
-                      //   borderSide: BorderSide(color: Color(0xFFA0A0A0)),
-                      // ),
-                      // enabledBorder: OutlineInputBorder(
-                      //   borderRadius: BorderRadius.circular(2),
-                      //   borderSide: BorderSide.none,
-                      // ),
-                      // suffixStyle: const TextStyle(color: Colors.indigo),
                     ),
                   ),
                 ),
