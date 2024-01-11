@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import Navbar from "./Components/Navbar";
 import Categories from "./Components/Categories";
 import Video from "./Components/video";
@@ -10,7 +10,6 @@ import hero from "./assets/images/Container.png";
 import play from "./assets/images/play.png";
 import chatbot from "./assets/icon/Chatbot.png";
 
-import { Link } from "react-router-dom";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 
 const Homepage = () => {
