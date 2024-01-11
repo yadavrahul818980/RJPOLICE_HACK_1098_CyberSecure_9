@@ -49,7 +49,7 @@ class _financialFraudState extends State<financialFraud> {
                         Padding(
                           padding: EdgeInsets.only(left: 50),
                           child: Text(
-                            'Data Breach',
+                            'Financial Fraud',
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.w500,

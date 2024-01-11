@@ -15,8 +15,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
- 
+  bool _isLoading = false;
   Future<void> _saveItem() async {
+    setState(() {
+      _isLoading = true;
+    });
     final url = Uri.https('cyber-secure.onrender.com', '/v1/auth/register');
     // http.post(url,headers:{}, body: json.encode({
     final Map<String, String> requestBody = {
@@ -30,18 +33,51 @@ class _LoginState extends State<Login> {
         body: jsonEncode(requestBody),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
+
+        final Map<String, dynamic> responseData = json.decode(response.body);
+          final message = responseData['message'];
+          print('Message from API: $message');
+          // Update UI to show success message or navigate to another screen
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message),
+              duration: const Duration(seconds: 3),
+           ),
+        );
+        setState(() {
+          _isLoading = false;
+        });
         Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) =>
                   otpVerification(email: _emailController.text),
             ));
+        // setState(() {
+        //   isLoading = false;
+        // });
       } else {
-        print('Failed: ${response.statusCode}');
+        final Map<String, dynamic> responseData = json.decode(response.body);
+          final message = responseData['message'];
+          print('Failed: $message');
+          // Update UI to show success message or navigate to another screen
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message),
+              duration: const Duration(seconds: 3),
+           ),
+        );
+        setState(() {
+          _isLoading = false;
+        });
+        // print('Failed: ${response.statusCode}');
       }
     } catch (e) {
       print('Error: $e');
+      setState(() {
+          _isLoading = false;
+        });
     }
   }
 
@@ -61,7 +97,17 @@ class _LoginState extends State<Login> {
             backgroundColor: Colors.transparent,
             body: ListView(
               children: [buildheading(context)],
-            ))
+            )),
+            if (_isLoading)
+                Container(
+                  color: Colors.black.withOpacity(0.5),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4E82EA)),
+                      strokeWidth: 5.0,
+                    ),
+                  ),
+                ),
       ],
     );
   }
@@ -135,9 +181,8 @@ class _LoginState extends State<Login> {
                 ]),
           ),
         ),
-        button("Sign In", 40.0, 320.0, context, otpVerification(email:_emailController.text), 
-          _saveItem)
-        
+        button("Sign In", 40.0, 320.0, context,
+            otpVerification(email: _emailController.text), _saveItem)
       ],
     );
   }

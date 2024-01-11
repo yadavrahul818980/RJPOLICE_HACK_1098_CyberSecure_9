@@ -20,6 +20,7 @@ class otpVerification extends StatefulWidget {
 class _otpVerificationState extends State<otpVerification> {
   final TextEditingController _otpController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  
   String? errorMessage;
     Future<void> _otpVerify() async {
     final url = Uri.https('cyber-secure.onrender.com', '/v1/auth/verifyOtp');
@@ -36,6 +37,8 @@ class _otpVerificationState extends State<otpVerification> {
       );
 
       if (response.statusCode == 200) {
+
+        
         print('Success: ${response.body}');
       } else {
         setState(() {
@@ -120,7 +123,7 @@ class _otpVerificationState extends State<otpVerification> {
         ),
         SizedBox(height: screenHeight * 0.035),
         Pinput(
-            length: 6,
+            length: 4,
             defaultPinTheme: defaultPinTheme,
             focusedPinTheme: defaultPinTheme.copyWith(
                 decoration: defaultPinTheme.decoration!
