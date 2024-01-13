@@ -18,10 +18,10 @@ const Navbar = () => {
             </div>
             <div className="buttons px-8 py-4">
                 <button className="px-4">User Login</button>
-                <Link to="/Admin_login"> <button className="bg-[#245BCA] text-white px-4 py-2 rounded-md">Admin Login</button> </Link>
+                <Link to="/AdminLogin"> <button className="bg-[#245BCA] text-white px-4 py-2 rounded-md">Admin Login</button> </Link>
             </div>
         </div>
-        </>
+        </>         
     )
 };
 export default Navbar;
