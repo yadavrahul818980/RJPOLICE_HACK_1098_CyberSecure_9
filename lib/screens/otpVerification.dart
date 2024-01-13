@@ -8,6 +8,7 @@ import 'package:pinput/pinput.dart';
 import 'package:cyber_secure/screens/loginscreen.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class otpVerification extends StatefulWidget {
   final String email;
@@ -20,14 +21,28 @@ class otpVerification extends StatefulWidget {
 class _otpVerificationState extends State<otpVerification> {
   final TextEditingController _otpController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  
+  bool _isLoading = false;
+//
+  late SharedPreferences prefs;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   String? errorMessage;
-    Future<void> _otpVerify() async {
+  Future<void> _otpVerify() async {
     final url = Uri.https('cyber-secure.onrender.com', '/v1/auth/verifyOtp');
     // http.post(url,headers:{}, body: json.encode({
     final Map<String, String> requestBody = {
       'email': widget.email,
-      'name': _otpController.text,
+      'otp': _otpController.text,
     };
     try {
       final response = await http.post(
@@ -37,20 +52,92 @@ class _otpVerificationState extends State<otpVerification> {
       );
 
       if (response.statusCode == 200) {
+//
+        dynamic setCookieHeader = response.headers['set-cookie'];
 
-        
-        print('Success: ${response.body}');
-      } else {
+        List<String>? cookies;
+        // print(response.Cookies);
+        print('Response headers: ${response.headers}');
+        print('Cookies from response: ${response.headers['set-cookie']}');
+
+        if (setCookieHeader is String) {
+          cookies = [setCookieHeader];
+        } else if (setCookieHeader is List<String>) {
+          cookies = setCookieHeader;
+        } else {
+          cookies = [];
+        }
+
+        print('Response Headers: $setCookieHeader');
+
+        String accessToken = '';
+        // String
+
+        if (cookies.isNotEmpty) {
+          accessToken = cookies
+              .map((cookie) => cookie.split(';').first)
+              .firstWhere((value) => value.startsWith('accessToken='),
+                  orElse: () => '');
+        }
+        String actualAccessToken = accessToken.substring("accesstoken=".length);
+
+        print('Access Token from Cookie: $actualAccessToken');
+
+        if (actualAccessToken.isNotEmpty) {
+          prefs.setString('token', actualAccessToken);
+          print('Token stored in prefs: $actualAccessToken');
+        } else {
+          // Handle the case where the token is empty
+          print('Token is empty');
+        }
+
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        final message = responseData['message'];
+        print('Message from API: $message');
+        print('email : ${widget.email}');
+        // Update UI to show success message or navigate to another screen
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            duration: const Duration(seconds: 3),
+          ),
+        );
         setState(() {
-          errorMessage = 'Invalid OTP. Please try again.';
+          _isLoading = false;
         });
-        print('Failed: ${response.statusCode}');
+
+        print('Success: ${response.body}');
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => NavBar()));
+      } else {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        final message = responseData['message'];
+        print('Failed: $message');
+        print('email : ${widget.email}');
+        // Update UI to show success message or navigate to another screen
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+        setState(() {
+          _isLoading = false;
+        });
+        // setState(() {
+        //   errorMessage = 'Invalid OTP. Please try again.';
+        // });
+        // print('Failed: ${response.statusCode}');
       }
     } catch (e) {
       setState(() {
         errorMessage = 'error: $e';
       });
+      setState(() {
+        _isLoading = false;
+      });
       print('Error: $e');
+      print('email : ${widget.email}');
     }
   }
 
@@ -123,11 +210,13 @@ class _otpVerificationState extends State<otpVerification> {
         ),
         SizedBox(height: screenHeight * 0.035),
         Pinput(
-            length: 4,
-            defaultPinTheme: defaultPinTheme,
-            focusedPinTheme: defaultPinTheme.copyWith(
-                decoration: defaultPinTheme.decoration!
-                    .copyWith(border: Border.all(color: Color(0xFFC2C3CB))))),
+          length: 4,
+          defaultPinTheme: defaultPinTheme,
+          focusedPinTheme: defaultPinTheme.copyWith(
+              decoration: defaultPinTheme.decoration!
+                  .copyWith(border: Border.all(color: Color(0xFFC2C3CB)))),
+          controller: _otpController,
+        ),
         SizedBox(height: screenHeight * 0.08),
         const CustomText(
           text: "Send Again",
@@ -150,7 +239,7 @@ class _otpVerificationState extends State<otpVerification> {
         //   home();
         //   }
         // }, _otpVerify)
-        button("Verify", 40.0, 320.0, context,NavBar(), _otpVerify)
+        button2("Verify", 40.0, 320.0, context, _otpVerify)
       ],
     );
   }

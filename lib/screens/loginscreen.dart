@@ -4,24 +4,45 @@ import 'package:cyber_secure/screens/utilities.dart';
 import 'package:cyber_secure/screens/otpVerification.dart';
 import 'package:cyber_secure/screens/background_img.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
+  // late SharedPreferences prefs;
 
   @override
   State<Login> createState() => _LoginState();
+  // void initState() {
+  //   super.initState();
+  //   initSharedPref();
+  // }
 }
 
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   bool _isLoading = false;
+  //
+  // late SharedPreferences prefs;
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   initSharedPref();
+  // }
+
+  // void initSharedPref() async {
+  //   prefs = await SharedPreferences.getInstance();
+  // }
+
   Future<void> _saveItem() async {
     setState(() {
       _isLoading = true;
     });
     final url = Uri.https('cyber-secure.onrender.com', '/v1/auth/register');
     // http.post(url,headers:{}, body: json.encode({
+
     final Map<String, String> requestBody = {
       'email': _emailController.text,
       'name': _nameController.text,
@@ -33,18 +54,60 @@ class _LoginState extends State<Login> {
         body: jsonEncode(requestBody),
       );
 
+      //
+      print(response.statusCode);
       if (response.statusCode == 201) {
+        //
+        // print(response);
+        // dynamic setCookieHeader = response.headers['set-cookie'];
+
+        // List<String>? cookies;
+        // // print(response.Cookies);
+        // print('Response headers: ${response.headers}');
+        // print('Cookies from response: ${response.headers['set-cookie']}');
+
+        // if (setCookieHeader is String) {
+        //   cookies = [setCookieHeader];
+        // } else if (setCookieHeader is List<String>) {
+        //   cookies = setCookieHeader;
+        // } else {
+        //   cookies = [];
+        // }
+
+        // print('Response Headers: $setCookieHeader');
+
+        // String accessToken = '';
+
+        // if (cookies.isNotEmpty) {
+        //   accessToken = cookies
+        //       .map((cookie) => cookie.split(';').first)
+        //       .firstWhere((value) => value.startsWith('accessToken='),
+        //           orElse: () => '');
+        // }
+
+        // print('Access Token from Cookie: $accessToken');
+
+        // if (accessToken.isNotEmpty) {
+        //   prefs.setString('token', accessToken);
+        //   print('Token stored in prefs: $accessToken');
+        // } else {
+        //   // Handle the case where the token is empty
+        //   print('Token is empty');
+        // }
 
         final Map<String, dynamic> responseData = json.decode(response.body);
-          final message = responseData['message'];
-          print('Message from API: $message');
-          // Update UI to show success message or navigate to another screen
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(message),
-              duration: const Duration(seconds: 3),
-           ),
+        final message = responseData['message'];
+        // final SharedPreferences sharedPreferences =
+        //  await SharedPreferences.getInstance();
+        print('Message from API: $message');
+        // Update UI to show success message or navigate to another screen
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            duration: const Duration(seconds: 3),
+          ),
         );
+
         setState(() {
           _isLoading = false;
         });
@@ -59,14 +122,14 @@ class _LoginState extends State<Login> {
         // });
       } else {
         final Map<String, dynamic> responseData = json.decode(response.body);
-          final message = responseData['message'];
-          print('Failed: $message');
-          // Update UI to show success message or navigate to another screen
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(message),
-              duration: const Duration(seconds: 3),
-           ),
+        final message = responseData['message'];
+        print('Failed: $message');
+        // Update UI to show success message or navigate to another screen
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            duration: const Duration(seconds: 3),
+          ),
         );
         setState(() {
           _isLoading = false;
@@ -76,8 +139,8 @@ class _LoginState extends State<Login> {
     } catch (e) {
       print('Error: $e');
       setState(() {
-          _isLoading = false;
-        });
+        _isLoading = false;
+      });
     }
   }
 
@@ -98,16 +161,16 @@ class _LoginState extends State<Login> {
             body: ListView(
               children: [buildheading(context)],
             )),
-            if (_isLoading)
-                Container(
-                  color: Colors.black.withOpacity(0.5),
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4E82EA)),
-                      strokeWidth: 5.0,
-                    ),
-                  ),
-                ),
+        if (_isLoading)
+          Container(
+            color: Colors.black.withOpacity(0.5),
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4E82EA)),
+                strokeWidth: 5.0,
+              ),
+            ),
+          ),
       ],
     );
   }

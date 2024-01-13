@@ -1,6 +1,8 @@
 import 'package:cyber_secure/screens/databreach.dart';
 import 'package:cyber_secure/screens/feed.dart';
 import 'package:cyber_secure/screens/home.dart';
+import 'package:cyber_secure/screens/incident.dart';
+import 'package:cyber_secure/screens/loginscreen.dart';
 import 'package:cyber_secure/screens/splash_screen.dart';
 import 'package:cyber_secure/screens/trends.dart';
 import 'package:cyber_secure/screens/trendsSearch.dart';

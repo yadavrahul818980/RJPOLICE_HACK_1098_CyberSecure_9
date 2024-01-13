@@ -129,7 +129,7 @@ class _TextOnlyState extends State<TextOnly> {
     gemini
         // .generateFromText(
         .generateFromText(
-            ''' 
+            '''
             
           " now lets play a game in which you will be my application chatbot called cyberMitr & application name is cyber secure  and i will ask you  questions related to cybercrime prevention  .
 U need to follow the rules at any condition . rules are as follows
@@ -695,137 +695,167 @@ Address: CCS Building in the premises of II Town Police Station, Dabagardens, Vi
 Phone: Inspector of Police, Cyber Crimes is 9490617917, Sub-Inspector of Police is 9490617916
 Email: inspr_cybercrime@vspc.appolice.gov.in
 Website: www.vizagcitypolice.gov.in
+
 Chandigarh
 Phone: 0172 - 2970600
 Email: cybercrime-chd@nic.in
 Website: www.chandigarhpolice.gov.in
+
 Delhi - EAST
 Address: Room No. 11, DCP Office, IP Extension Mandawali, Fazalpur, New Delh110092
 Phone: 011-22232116
 Email: acp-diu-east-dl@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - NORTH EAST
 Address: 3rd Floor, DCP Office, Seelampur, New Delhi- 110053
 Phone: 011-22829503, 22829504
 Email: cybercell.ned@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - SOUTH
 Address: Room No. 107, Ist Floor, PS Saket, New Delhi 110017
 Phone: 011-29561004
 Email: cybercell.south@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - SOUTH EAST
 Address: Room No. 114 & 124, Ist Floor, PS C.R Park Complex, New Delhi 110087
 Phone: 011-26270304
 Email: cybercell.sed@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - SOUTH WEST
 Address: DCP Office Complex, Sec. 19, Dwarka, New Delhi 110075
 Phone: 011-28084059
 Email: acpdiu-swd-dl@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - WEST
 Address: 2nd Floor, PS Hari Nagar, New Delhi - 110064
 Phone: 011-25123432
 Email: acpdiu-west-dl@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - OUTER
 Address: Cyber Cell, Kanjhawala Road, Near Marble Market, Mangolpuri, New Delhi – 110083
 Phone: 011-27911006
 Email: acp-ops-outer-dl@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - CENTRAL
 Address: Old Builiding, PS Kamla Market, New Delhi - 110002
 Phone: 011-232100885
 Email: cybercell-central@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - NORTH
 Address: Behind Daulat Ram College, Delhi University North Campus, Maurice Nagar, New Delhi - 110007
 Phone: 011-27662875
 Email: acp-ops-north-dl@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - NORTH WEST
 Address: Cyber Cell, AU-Block, Pitampura, New Delhi 110088
 Phone: 011-27344606
 Email: acp-ops-northwest-dl@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - SHAHDARA
 Address: Old DCP Office, GTB Enclave, IInd Floor, Room No. 307, Near Jhilmil Metro Station, Dilshad Garden, New Delhi-110095
 Phone: 011-22304001
 Email: cybercell-shahdara@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - ROHINI
 Address: Room No. 303, Rohini District line, Begampur, New Delhi - 110086
 Phone: 011-27061702
 Email: dcp-rohini-dl@delhipolice.gov.in
 Website: www.cybercelldelhi.in
+
 Delhi - NEW DELHI
 Address: Room No. 206, PS Mandir Marg, New Delhi - 110001
 Phone: 011-23746694
 Email: dcp-newdelhi-dl@nic.in
 Website: www.cybercelldelhi.in
+
 Goa
 Address: Near Azad Maidan Panaji - Pin code: 403001
 Phone: 0832-2443201, 7875756171
 Email: picyber@goapolice.gov.in
 Website: www.goapolice.gov.in
+
 Gujarat
 Phone: 079-23250798
 Email: cc-cid@gujarat.gov.in
+
 Himachal Pradesh
 Phone: 9418176222, 0177-2620331
 Email: cybercrcell-hp@nic.in
 Website: www.cybercellhimachal.com
+
 Jharkhand
 Address: Cyber Crime Police Station, Kutchery Chowk, Ranchi, Jharkhand
 Phone: 06512220060, 9771432133
 Email: cyberps@jhpolice.gov.in
 Website: www.jhpolice.gov.in
+
 Karnataka
 Phone: 9480 801554, 0802 2375522
 Email: cybercrimepsbcp@ksp.gov.in, compolbcp@ksp.gov.in, piccrbbcp@ksp.gov.in
 Website: www.cyberpolicebangalore.nic.in
+
 Kerala
 Phone: 0471 2721547, 9497 900468, 0471 2322090
 Email: hitechcell.pol@kerala.gov.in
 Website: www.kerala.gov.in
+
 Madhya Pradesh
 Address: Bhadbadha Road, Bhopal- 462003, Madhya Pradesh
 Website: www.mppolice.gov.in
+
 Maharashtra
 Address: 4th floor, office of commissioner of police, Near Kalwa Bridge, Thane (W), Thane
 Phone:022-25429804
 Email: cp.thane.online@mahapolice.gov.in
 Website: http://www.thanepolice.gov.in/cybercellcontactus.php
+
 Mizoram
 Address: Crime Investigation Department, crime, CID COmplex, Aizawl - 796001, Mizoram
 Phone: +91 3892 325753
 Email: spcidcr-mz@nic.in, l.mawia@gov.in
 Website: www.cidcrime.mizoram.gov.in
+
 Punjab
+
 Address: Phase-4, S.A.S Nagar, Mohali
 Phone: 0172-2226258
 Email: aigcc@punjabpolice.gov.in
 Website: www.punjabpolice.gov.in
+
 Sikkim
 Address: State Police Headquarters, NH 10, Gangtok - 737101, Sikkim
 Phone: 03592-202087, 03592-204297
 Email: igpcom@sikkimpolice.nic.in
+
 Tamil Nadu
 Address: No. 220, pantheaon Road, Eqmore, Chennai - 8
 Phone: 044-28512527
 Email: spcybercbcid.tnpol@nic.in
 Website: www.eservices.tnpolice.gov.in
+
 Uttar Pradesh
 Address: Cyber Complaints Redressal Cell, Nodal Officer Cyber cell Agra, Agra Range 7, Kutchery Road, Baluganj, Agra - 232001, Uttar Pradesh
 Phone: +91 9410837559
 Email: sspaga-up@nic.in
 Website: www.uppolice.gov.in
+
 Uttarakhand
 Address: Cyber crime police station, near fire station, Gandhi road dehradun - 248001
 Phone: 9897 659009, 0135-2655900
 Email: ccps.deh@uttarakhandpolice.uk.gov.in
 Website: www.uttarakhandpolice.uk.gov.in
+
 West Bengal
 Address: 18, Lalbazar Street, Kolkata - 700001
 Phone: 033-22143000
@@ -1674,6 +1704,9 @@ Cyber Cell Details
 Helpline Number 155260
 09:00 AM To 06:00 PM
 
+this is the data which u need to learn and reply user accordingly when user ask any question related to this data
+every question asked related to the data below is relevant and u have to reply from this data 
+learn this data very well:
 Here are some important numbers and contact details of where you can report a cyber-crime. As a general rule, though, we suggest you first contact your local police station and tell them what happened with you, depending on the severity of the crime, it will be investigated by special cyber-crime investigation cell.
 
 Cyber Crime Portal India 
