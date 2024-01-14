@@ -3,6 +3,7 @@ import 'package:cyber_secure/screens/feed.dart';
 import 'package:cyber_secure/screens/home.dart';
 import 'package:cyber_secure/screens/incident.dart';
 import 'package:cyber_secure/screens/loginscreen.dart';
+import 'package:cyber_secure/screens/profile.dart';
 import 'package:cyber_secure/screens/splash_screen.dart';
 import 'package:cyber_secure/screens/trends.dart';
 import 'package:cyber_secure/screens/trendsSearch.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: const profile(),
     );
   }
 }

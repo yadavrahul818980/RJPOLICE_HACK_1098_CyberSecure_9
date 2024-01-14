@@ -1,6 +1,8 @@
+import 'package:cyber_secure/screens/loginscreen.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:cyber_secure/screens/personalInfo.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class profile extends StatefulWidget {
   const profile({super.key});
@@ -10,6 +12,11 @@ class profile extends StatefulWidget {
 }
 
 class _profileState extends State<profile> {
+  Future<void> clearSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,33 +75,41 @@ class _profileState extends State<profile> {
             fontSize: 14,
           ),
           settingBox('assets/logOut.png', 'Personal Info', context, personal()),
-          settingBox('assets/logOut.png', 'Personal Info', context, profile()),
-          settingBox('assets/logOut.png', 'Personal Info', context, profile()),
-          settingBox('assets/logOut.png', 'Personal Info', context, profile()),
+          settingBox('assets/logOut.png', 'Resolved Cases', context, profile()),
+          settingBox('assets/logOut.png', 'Active Cases', context, profile()),
+          settingBox('assets/logOut.png', 'Saved Articles', context, profile()),
+          settingBox(
+              'assets/logOut.png', 'Customer Support', context, profile()),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.asset(
-                  'assets/logOut.png',
-                  scale: 1,
-                  // height: screenHeight * 0.032,
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  clearSharedPreferences();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      'assets/logOut.png',
+                      scale: 1,
+                      // height: screenHeight * 0.032,
+                    ),
+                    SizedBox(width: screenWidth * 0.1),
+                    Text(
+                      'Logout',
+                      style: TextStyle(
+                        color: Color(0xFF212121),
+                        fontSize: 18.37,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        // height: 0,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: screenWidth * 0.1),
-                Text(
-                  'Logout',
-                  style: TextStyle(
-                    color: Color(0xFF00184A),
-                    fontSize: 18.37,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                    // height: 0,
-                  ),
-                ),
-              ],
-            ),
-          )
+              ))
         ],
       ),
     );

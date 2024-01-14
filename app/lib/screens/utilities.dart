@@ -50,9 +50,8 @@ Widget button(String text, double height, double width, BuildContext context,
   );
 }
 
-
 Widget button2(String text, double height, double width, BuildContext context,
-     Future<void> Function() onTapFunction) {
+    Future<void> Function() onTapFunction) {
   // final screenHeight = MediaQuery.of(context).size.height;
   // final screenWidth = MediaQuery.of(context).size.width;
 
@@ -623,25 +622,56 @@ Widget settingBox(image, text1, context, page) {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.asset(
-                    image,
-                    scale: 1,
-                    // height: screenHeight * 0.032,
-                  ),
-                  SizedBox(width: screenWidth * 0.1),
-                  Text(
-                    text1,
-                    style: TextStyle(
-                      color: Color(0xFF00184A),
-                      fontSize: 18.37,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      // height: 0,
-                    ),
-                  ),
-                  SizedBox(width: screenWidth * 0.27),
+                  // Image.asset(
+                  //   image,
+                  //   scale: 1,
+                  //   // height: screenHeight * 0.032,
+                  // ),
+
+                  // SizedBox(width: screenWidth * 0.1),
+
+                  Container(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image.asset(
+                        image,
+                        scale: 1,
+                        // height: screenHeight * 0.032,
+                      ),
+
+                      SizedBox(width: screenWidth * 0.1),
+                      Text(
+                        text1,
+                        style: TextStyle(
+                          color: Color(0xFF00184A),
+                          fontSize: 18.37,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          // height: 0,
+                        ),
+                      ),
+                      // SizedBox(width: screenWidth * 0.2),
+                      // Icon(
+                      //   Icons.arrow_right_sharp,
+                      //   size: 38.0,
+                      // )
+                    ],
+                  )
+                      // child: Text(
+                      //   text1,
+                      //   style: TextStyle(
+                      //     color: Color(0xFF00184A),
+                      //     fontSize: 18.37,
+                      //     fontFamily: 'Poppins',
+                      //     fontWeight: FontWeight.w500,
+                      //     // height: 0,
+                      //   ),
+                      // ),
+                      ),
+                  // SizedBox(width: screenWidth * 0.27),
                   Icon(
                     Icons.arrow_right_sharp,
                     size: 38.0,
@@ -713,24 +743,22 @@ Widget personalInfo(image, text1, text2, context, page) {
   );
 }
 
-
-
 // import 'package:flutter/material.dart';
-Widget UserInput(text){
+Widget UserInput(String text, TextEditingController controller) {
   return Container(
     child: TextFormField(
+      controller: controller,
       textInputAction: TextInputAction.next,
       style: const TextStyle(
         color: Color(0xff00194A),
       ),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20,15,20,15),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         labelText: text,
         labelStyle: const TextStyle(
             color: Color(0xff617193),
-          fontSize: 17.9,
-          fontWeight: FontWeight.w500
-        ),
+            fontSize: 17.9,
+            fontWeight: FontWeight.w500),
         border: OutlineInputBorder(
           // borderRadius: BorderRadius.circular(20),
           borderSide: const BorderSide(
@@ -738,7 +766,6 @@ Widget UserInput(text){
             width: 1,
           ),
         ),
-
         focusedBorder: OutlineInputBorder(
           // borderRadius: BorderRadius.circular(20),
           borderSide: const BorderSide(
@@ -746,16 +773,15 @@ Widget UserInput(text){
             width: 1,
           ),
         ),
-
         enabledBorder: OutlineInputBorder(
           // borderRadius: BorderRadius.circular(20),
           borderSide: const BorderSide(
             color: Color(0xff00194A),
             width: 1,
-
-          ) ,
+          ),
         ),
-      ),),
+      ),
+    ),
   );
 }
 
@@ -785,7 +811,8 @@ class DottedBorderPainter extends CustomPainter {
       if (startX + dashWidth > size.width) {
         canvas.drawLine(Offset(startX, 0), Offset(size.width, 0), paint);
       } else {
-        canvas.drawLine(Offset(startX, 0), Offset(startX + dashWidth, 0), paint);
+        canvas.drawLine(
+            Offset(startX, 0), Offset(startX + dashWidth, 0), paint);
       }
       startX += dashWidth + dashSpace;
     }
@@ -796,7 +823,8 @@ class DottedBorderPainter extends CustomPainter {
       if (startY + dashWidth > size.height) {
         canvas.drawLine(Offset(0, startY), Offset(0, size.height), paint);
       } else {
-        canvas.drawLine(Offset(0, startY), Offset(0, startY + dashWidth), paint);
+        canvas.drawLine(
+            Offset(0, startY), Offset(0, startY + dashWidth), paint);
       }
       startY += dashWidth + dashSpace;
     }
@@ -805,9 +833,11 @@ class DottedBorderPainter extends CustomPainter {
     double endX = size.width - strokeWidth / 2;
     while (endX > 0) {
       if (endX - dashWidth < 0) {
-        canvas.drawLine(Offset(0, size.height), Offset(endX, size.height), paint);
+        canvas.drawLine(
+            Offset(0, size.height), Offset(endX, size.height), paint);
       } else {
-        canvas.drawLine(Offset(endX, size.height), Offset(endX - dashWidth, size.height), paint);
+        canvas.drawLine(Offset(endX, size.height),
+            Offset(endX - dashWidth, size.height), paint);
       }
       endX -= dashWidth + dashSpace;
     }
@@ -818,7 +848,8 @@ class DottedBorderPainter extends CustomPainter {
       if (endY - dashWidth < 0) {
         canvas.drawLine(Offset(size.width, 0), Offset(size.width, endY), paint);
       } else {
-        canvas.drawLine(Offset(size.width, endY), Offset(size.width, endY - dashWidth), paint);
+        canvas.drawLine(Offset(size.width, endY),
+            Offset(size.width, endY - dashWidth), paint);
       }
       endY -= dashWidth + dashSpace;
     }

@@ -1,21 +1,36 @@
+import 'dart:convert';
+import 'package:cyber_secure/screens/profile.dart';
+import 'package:http/http.dart' as http;
 import 'package:cyber_secure/screens/Utilities.dart';
 import 'package:cyber_secure/screens/incident.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
-
 class ComplaintPage extends StatefulWidget {
-  const ComplaintPage({super.key});
+  final String acknowlwdgementNumber;
+  const ComplaintPage({Key? key, required this.acknowlwdgementNumber})
+      : super(key: key);
 
   @override
   State<ComplaintPage> createState() => _ComplaintPageState();
 }
 
 class _ComplaintPageState extends State<ComplaintPage> {
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _houseController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _stateController = TextEditingController();
+  final TextEditingController _nearestController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
+  bool _isLoading = false;
   File? _image;
   Future _getImageFromCamera() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.camera);
 
     setState(() {
       _image = pickedFile != null ? File(pickedFile.path) : null;
@@ -23,189 +38,315 @@ class _ComplaintPageState extends State<ComplaintPage> {
   }
 
   Future _getImageFromGallery() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     setState(() {
       _image = pickedFile != null ? File(pickedFile.path) : null;
     });
   }
+
+  Future<String?> getAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
+  Future<void> _saveComplaintes() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    String? accessToken = await getAccessToken();
+
+    if (accessToken == null) {
+      // Handle the case where the access token is not available
+      return;
+    }
+
+    final url =
+        Uri.https('cyber-secure.onrender.com', '/v1/complainantDetails');
+    final Map<String, String> requestBody = {
+      'acknowledgementNumber': widget.acknowlwdgementNumber,
+      'name': _nameController.text,
+      'gender': _genderController.text,
+      'houseNo': _houseController.text,
+      'country': _countryController.text,
+      'streetName': _streetController.text,
+      'state': _stateController.text,
+      'district': _districtController.text,
+      'nearestPoliceStation': _nearestController.text,
+    };
+    try {
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken'
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        final message = responseData['message'];
+        print('Message from API: $message');
+        print('acknowlwdgementNumber: ${widget.acknowlwdgementNumber}');
+        // Update UI to show success message or navigate to another screen
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+        setState(() {
+          _isLoading = false;
+        });
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const profile()));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) =>
+        //           otpVerification(email: _emailController.text),
+        //     ));
+        setState(() {
+          _isLoading = false;
+        });
+      } else {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        final message = responseData['message'];
+        print('Failed: $message');
+        // Update UI to show success message or navigate to another screen
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+        setState(() {
+          _isLoading = false;
+        });
+        // print('Failed: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final sheight=MediaQuery.of(context).size.height;
-    final swidth=MediaQuery.of(context).size.width;
-
+    final sheight = MediaQuery.of(context).size.height;
+    final swidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: SafeArea(
-      child: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child:  Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/Ellipse 873.png',scale: 5,),
-                  Expanded(
-                    child: Divider(
-                      color: Colors.grey,
-                      thickness: 1.25,// Color of the divider line
-                    ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/Ellipse 873.png',
+                        scale: 5,
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Colors.grey,
+                          thickness: 1.25, // Color of the divider line
+                        ),
+                      ),
+                      Image.asset(
+                        'assets/Ellipse 873.png',
+                        scale: 5,
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Colors.grey,
+                          thickness: 1.25, // Color of the divider line
+                        ),
+                      ),
+                      Image.asset(
+                        'assets/Ellipse 874.png',
+                        scale: 3.7,
+                      ),
+                    ],
                   ),
-                  Image.asset('assets/Ellipse 873.png',scale: 5,),
-                  Expanded(
-                    child: Divider(
-                      color: Colors.grey,
-                      thickness: 1.25,// Color of the divider line
+                ),
+                SizedBox(
+                  height: sheight * 0.03,
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const page()));
+                        },
+                        icon: const Icon(Icons.arrow_back_ios)),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: Text(
+                        'Complaint Details',
+                        style: TextStyle(
+                          color: Color(0xff00194A),
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
+                  ],
+                ),
+                SizedBox(
+                  height: sheight * 0.03,
+                ),
+                UserInput('Name', _nameController),
+                SizedBox(
+                  height: sheight * 0.04,
+                ),
+                UserInput('Gender', _genderController),
+                SizedBox(
+                  height: sheight * 0.03,
+                ),
+                Text(
+                  'Address',
+                  style: TextStyle(
+                    color: Color(0xff00194A),
+                    fontSize: 25,
+                    fontWeight: FontWeight.w500,
                   ),
-                  Image.asset('assets/Ellipse 874.png',scale: 3.7,),
-                ],
-              ),
-            ),
-            SizedBox(height: sheight*0.03,),
-        Row(
-        children: [
-          IconButton(
-              onPressed:(){
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const page()));
-              },
-              icon: const Icon(Icons.arrow_back_ios)
-          ),
-        Padding(
-          padding: EdgeInsets.only(left: 40),
-          child: Text('Complaint Details',
-            style: TextStyle(
-              color: Color(0xff00194A),
-              fontSize: 25,
-              fontWeight: FontWeight.w500,
-            ),),
-        ),
-        ],
-      ),
-
-            SizedBox(height: sheight*0.03,),
-
-            UserInput('Name'),
-
-            SizedBox(height: sheight*0.04,),
-
-            UserInput('Gender'),
-
-            SizedBox(height: sheight*0.03,),
-
-            Text('Address',
-              style: TextStyle(
-                color: Color(0xff00194A),
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
-              ),),
-
-            SizedBox(height: sheight*0.03,),
-
-            Row(
-              children: [
-                Expanded(child: UserInput('House No.')),
-                SizedBox(width: swidth*0.03,),
-                Expanded(child: UserInput('Country'))
-              ],
-            ),
-
-            SizedBox(height: sheight*0.03,),
-
-            Row(
-              children: [
-                Flexible(child: UserInput('Street Name'),flex:3),
-                SizedBox(width: swidth*0.03,),
-                Flexible(child: UserInput('State'),flex:2)
-              ],
-            ),
-
-            SizedBox(height: sheight*0.03,),
-
-            Row(
-              children: [
-                Flexible(child: UserInput('District'),flex:4),
-                SizedBox(width: swidth*0.03,),
-                Flexible(child: UserInput('Nearest Police Station'),flex:7)
-              ],
-            ),
-
-            SizedBox(height: sheight*0.04,),
-
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  _showImagePickerDialog(context);
-                },
-                child: Container(
-                  height: sheight * 0.19,
-                  child: CustomPaint(
-                    painter: DottedBorderPainter(
-                      color: Color(0xff00194A),
-                      strokeWidth: 2,
+                ),
+                SizedBox(
+                  height: sheight * 0.03,
+                ),
+                Row(
+                  children: [
+                    Expanded(child: UserInput('House No.', _houseController)),
+                    SizedBox(
+                      width: swidth * 0.03,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(33, 20, 33, 0),
-                      child: _image != null
-                          ? Image.file(_image!, scale: 4)
-                          : Column(
-                        children: [
-                          Image.asset('assets/document-upload.png', scale: 3),
-                          SizedBox(height: sheight * 0.025),
-                          Text(
-                            'Upload Your Aadhar Card',
-                            style: TextStyle(
-                              color: Color(0xff00194A),
-                              fontSize: 23,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
+                    Expanded(child: UserInput('Country', _countryController))
+                  ],
+                ),
+                SizedBox(
+                  height: sheight * 0.03,
+                ),
+                Row(
+                  children: [
+                    Flexible(
+                        child: UserInput('Street Name', _streetController),
+                        flex: 3),
+                    SizedBox(
+                      width: swidth * 0.03,
+                    ),
+                    Flexible(
+                        child: UserInput('State', _stateController), flex: 2)
+                  ],
+                ),
+                SizedBox(
+                  height: sheight * 0.03,
+                ),
+                Row(
+                  children: [
+                    Flexible(
+                        child: UserInput('District', _districtController),
+                        flex: 4),
+                    SizedBox(
+                      width: swidth * 0.03,
+                    ),
+                    Flexible(
+                        child: UserInput(
+                            'Nearest Police Station', _nearestController),
+                        flex: 7)
+                  ],
+                ),
+                SizedBox(
+                  height: sheight * 0.04,
+                ),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      _showImagePickerDialog(context);
+                    },
+                    child: Container(
+                      height: sheight * 0.19,
+                      child: CustomPaint(
+                        painter: DottedBorderPainter(
+                          color: Color(0xff00194A),
+                          strokeWidth: 2,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(33, 20, 33, 0),
+                          child: _image != null
+                              ? Image.file(_image!, scale: 4)
+                              : Column(
+                                  children: [
+                                    Image.asset('assets/document-upload.png',
+                                        scale: 3),
+                                    SizedBox(height: sheight * 0.025),
+                                    Text(
+                                      'Upload Your Aadhar Card',
+                                      style: TextStyle(
+                                        color: Color(0xff00194A),
+                                        fontSize: 23,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-
-            SizedBox(height: sheight*0.035,),
-
-            Container(
-              width: swidth,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(
-                      builder: (context)=> ComplaintPage()));
-                },
-                style: TextButton.styleFrom(
-                  backgroundColor: Color(0xff4E82EA),
-                  padding: EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0), // Adjust the border radius value
+                SizedBox(
+                  height: sheight * 0.035,
+                ),
+                Container(
+                  width: swidth,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _saveComplaintes();
+                      // Navigator.pushReplacement(context,
+                      // MaterialPageRoute(builder: (context) => profile()));
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: Color(0xff4E82EA),
+                      padding: EdgeInsets.all(15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            10.0), // Adjust the border radius value
+                      ),
+                    ),
+                    child: const Text(
+                      'Continue',
+                      style: TextStyle(
+                        color: Colors.white, // Text color
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-                child: const Text(
-                  'Continue',
-                  style: TextStyle(
-                    color: Colors.white, // Text color
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              ],
             ),
-
-
-
-
-      ],
-    ),),),
-    ),);
+          ),
+        ),
+      ),
+    );
   }
+
   void _showImagePickerDialog(BuildContext context) {
     showDialog(
       context: context,

@@ -18,6 +18,8 @@ class _pageState extends State<page> {
   final TextEditingController _maincatController = TextEditingController();
   final TextEditingController _subcatController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
+  // final TextEditingController _ackController = TextEditingController();
+   String acknowledgementNumber = '';
   bool _isLoading = false;
   //for date container
   DateTime? selectedDate;
@@ -53,7 +55,6 @@ class _pageState extends State<page> {
     }
   }
 
-
   Future<String?> getAccessToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
@@ -64,14 +65,12 @@ class _pageState extends State<page> {
       _isLoading = true;
     });
 
-  String? accessToken = await getAccessToken();
+    String? accessToken = await getAccessToken();
 
     if (accessToken == null) {
       // Handle the case where the access token is not available
       return;
     }
-
-
 
     final url = Uri.https('cyber-secure.onrender.com', '/v1/incidentDetails');
     final Map<String, String> requestBody = {
@@ -80,21 +79,24 @@ class _pageState extends State<page> {
       'date': selectedDate.toString(),
       'time': selectedTime.toString(),
       'delayReason': _maincatController.text,
-      'additionalInfo':_subcatController.text,
-
+      'additionalInfo': _subcatController.text,
     };
     try {
       final response = await http.post(
         url,
-        headers: <String, String>{'Content-Type': 'application/json',
-        'Authorization':'Bearer $accessToken'},
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken'
+        },
         body: jsonEncode(requestBody),
       );
 
       if (response.statusCode == 201) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final message = responseData['message'];
+         acknowledgementNumber = responseData['acknowledgementNumber'];
         print('Message from API: $message');
+        print('acknowledgementNumber: $acknowledgementNumber');
         // Update UI to show success message or navigate to another screen
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -106,7 +108,10 @@ class _pageState extends State<page> {
           _isLoading = false;
         });
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ComplaintPage()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => ComplaintPage(
+                   acknowlwdgementNumber: acknowledgementNumber,)));
         // Navigator.push(
         //     context,
         //     MaterialPageRoute(
@@ -144,9 +149,8 @@ class _pageState extends State<page> {
   Widget build(BuildContext context) {
     final sheight = MediaQuery.of(context).size.height;
     final swidth = MediaQuery.of(context).size.width;
-    return Stack(
-      children: [  Scaffold(
-        
+    return Stack(children: [
+      Scaffold(
         body: SingleChildScrollView(
           child: SafeArea(
             child: Container(
@@ -219,7 +223,8 @@ class _pageState extends State<page> {
                       // height: sheight*0.2,
                       width: swidth * .9,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xff00194A), width: 1.5),
+                        border:
+                            Border.all(color: Color(0xff00194A), width: 1.5),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
@@ -257,7 +262,8 @@ class _pageState extends State<page> {
                       // height: sheight*0.2,
                       width: swidth * .9,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xff00194A), width: 1.5),
+                        border:
+                            Border.all(color: Color(0xff00194A), width: 1.5),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
@@ -328,13 +334,15 @@ class _pageState extends State<page> {
                               ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 13, right: 10),
+                              padding:
+                                  const EdgeInsets.only(left: 13, right: 10),
                               child: Center(
                                   child: selectedDate == null
                                       ? const Row(
                                           children: [
                                             Padding(
-                                              padding: EdgeInsets.only(right: 10),
+                                              padding:
+                                                  EdgeInsets.only(right: 10),
                                               child: Icon(
                                                 Icons.calendar_month,
                                                 size: 20,
@@ -354,7 +362,8 @@ class _pageState extends State<page> {
                                       : Row(
                                           children: [
                                             const Padding(
-                                              padding: EdgeInsets.only(right: 15),
+                                              padding:
+                                                  EdgeInsets.only(right: 15),
                                               child: Icon(
                                                 Icons.calendar_month,
                                                 size: 20,
@@ -372,11 +381,11 @@ class _pageState extends State<page> {
                             ),
                           ),
                         ),
-      
+
                         SizedBox(
                           width: swidth * 0.03,
                         ),
-      
+
                         //time block
                         GestureDetector(
                           onTap: () => _selectTime(context),
@@ -388,13 +397,15 @@ class _pageState extends State<page> {
                               border: Border.all(color: Color(0xff00194A)),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 13, right: 10),
+                              padding:
+                                  const EdgeInsets.only(left: 13, right: 10),
                               child: Center(
                                   child: selectedTime == null
                                       ? const Row(
                                           children: [
                                             Padding(
-                                              padding: EdgeInsets.only(right: 20),
+                                              padding:
+                                                  EdgeInsets.only(right: 20),
                                               child: Icon(
                                                 Icons.access_time_outlined,
                                                 size: 23,
@@ -413,7 +424,8 @@ class _pageState extends State<page> {
                                       : Row(
                                           children: [
                                             const Padding(
-                                              padding: EdgeInsets.only(right: 20),
+                                              padding:
+                                                  EdgeInsets.only(right: 20),
                                               child: Icon(
                                                 Icons.access_time_outlined,
                                                 size: 20,
@@ -440,38 +452,38 @@ class _pageState extends State<page> {
                         maxHeight: sheight * 0.6, // Set the maximum height
                       ),
                       child: TextFormField(
-                        // TextEditingController? _maincatController,
-                        controller: _maincatController,
+                          // TextEditingController? _maincatController,
+                          controller: _maincatController,
                           decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(20, 35, 20, 45),
-                        labelText: 'Reason for delay if any?',
-                        labelStyle: const TextStyle(
-                            color: Color(0xff617193),
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400),
-                        isDense: true,
-                        border: OutlineInputBorder(
-                          // borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(
-                            color: Color(0xff00194A),
-                            width: 1,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          // borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(
-                            color: Color(0xff00194A),
-                            width: 1,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          // borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(
-                            color: Color(0xff00194A),
-                            width: 1,
-                          ),
-                        ),
-                      )),
+                            contentPadding: EdgeInsets.fromLTRB(20, 35, 20, 45),
+                            labelText: 'Reason for delay if any?',
+                            labelStyle: const TextStyle(
+                                color: Color(0xff617193),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400),
+                            isDense: true,
+                            border: OutlineInputBorder(
+                              // borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                color: Color(0xff00194A),
+                                width: 1,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              // borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                color: Color(0xff00194A),
+                                width: 1,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              // borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                color: Color(0xff00194A),
+                                width: 1,
+                              ),
+                            ),
+                          )),
                     ),
                     SizedBox(
                       height: sheight * 0.03,
@@ -481,36 +493,36 @@ class _pageState extends State<page> {
                         maxHeight: sheight * 0.6, // Set the maximum height
                       ),
                       child: TextFormField(
-                        controller: _subcatController,
+                          controller: _subcatController,
                           decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(20, 35, 20, 45),
-                        labelText: 'Additional Information',
-                        labelStyle: const TextStyle(
-                            color: Color(0xff617193),
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400),
-                        border: OutlineInputBorder(
-                          // borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(
-                            color: Color(0xff00194A),
-                            width: 1,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          // borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(
-                            color: Color(0xff00194A),
-                            width: 1,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          // borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(
-                            color: Color(0xff00194A),
-                            width: 1,
-                          ),
-                        ),
-                      )),
+                            contentPadding: EdgeInsets.fromLTRB(20, 35, 20, 45),
+                            labelText: 'Additional Information',
+                            labelStyle: const TextStyle(
+                                color: Color(0xff617193),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400),
+                            border: OutlineInputBorder(
+                              // borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                color: Color(0xff00194A),
+                                width: 1,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              // borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                color: Color(0xff00194A),
+                                width: 1,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              // borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                color: Color(0xff00194A),
+                                width: 1,
+                              ),
+                            ),
+                          )),
                     ),
                     SizedBox(
                       height: sheight * 0.03,
@@ -551,16 +563,15 @@ class _pageState extends State<page> {
         ),
       ),
       if (_isLoading)
-                Container(
-                  color: Colors.black.withOpacity(0.5),
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4E82EA)),
-                      strokeWidth: 5.0,
-                    ),
-                  ),
-                ),
-      ]
-    );
+        Container(
+          color: Colors.black.withOpacity(0.5),
+          child: Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4E82EA)),
+              strokeWidth: 5.0,
+            ),
+          ),
+        ),
+    ]);
   }
 }
