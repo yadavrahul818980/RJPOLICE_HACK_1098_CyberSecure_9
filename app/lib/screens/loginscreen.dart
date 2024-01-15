@@ -12,30 +12,15 @@ class Login extends StatefulWidget {
 
   @override
   State<Login> createState() => _LoginState();
-  // void initState() {
-  //   super.initState();
-  //   initSharedPref();
-  // }
+  
 }
 
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   bool _isLoading = false;
-  //
-  // late SharedPreferences prefs;
-
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   initSharedPref();
-  // }
-
-  // void initSharedPref() async {
-  //   prefs = await SharedPreferences.getInstance();
-  // }
-
+  
+  
   Future<void> _saveItem() async {
     setState(() {
       _isLoading = true;
@@ -57,48 +42,11 @@ class _LoginState extends State<Login> {
       //
       print(response.statusCode);
       if (response.statusCode == 201) {
-        //
-        // print(response);
-        // dynamic setCookieHeader = response.headers['set-cookie'];
-
-        // List<String>? cookies;
-        // // print(response.Cookies);
-        // print('Response headers: ${response.headers}');
-        // print('Cookies from response: ${response.headers['set-cookie']}');
-
-        // if (setCookieHeader is String) {
-        //   cookies = [setCookieHeader];
-        // } else if (setCookieHeader is List<String>) {
-        //   cookies = setCookieHeader;
-        // } else {
-        //   cookies = [];
-        // }
-
-        // print('Response Headers: $setCookieHeader');
-
-        // String accessToken = '';
-
-        // if (cookies.isNotEmpty) {
-        //   accessToken = cookies
-        //       .map((cookie) => cookie.split(';').first)
-        //       .firstWhere((value) => value.startsWith('accessToken='),
-        //           orElse: () => '');
-        // }
-
-        // print('Access Token from Cookie: $accessToken');
-
-        // if (accessToken.isNotEmpty) {
-        //   prefs.setString('token', accessToken);
-        //   print('Token stored in prefs: $accessToken');
-        // } else {
-        //   // Handle the case where the token is empty
-        //   print('Token is empty');
-        // }
+        
 
         final Map<String, dynamic> responseData = json.decode(response.body);
         final message = responseData['message'];
-        // final SharedPreferences sharedPreferences =
-        //  await SharedPreferences.getInstance();
+        
         print('Message from API: $message');
         // Update UI to show success message or navigate to another screen
         ScaffoldMessenger.of(context).showSnackBar(
@@ -117,9 +65,7 @@ class _LoginState extends State<Login> {
               builder: (context) =>
                   otpVerification(email: _emailController.text),
             ));
-        // setState(() {
-        //   isLoading = false;
-        // });
+       
       } else {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final message = responseData['message'];
@@ -208,7 +154,7 @@ class _LoginState extends State<Login> {
           height: screenHeight * 0.08,
         ),
         buildtextfiled(
-          'assets/User.png',
+          'assets/User1.png',
           "Name",
           context,
           "Rahul Yadav",
@@ -216,8 +162,8 @@ class _LoginState extends State<Login> {
           _nameController,
         ),
         buildtextfiled(
-          'assets/mingcute_idcard-fill.png',
-          "Phone Number",
+          'assets/mingcute_idcard.png',
+          "Email",
           context,
           "9058-958-389",
           false,

@@ -124,10 +124,7 @@ class _otpVerificationState extends State<otpVerification> {
         setState(() {
           _isLoading = false;
         });
-        // setState(() {
-        //   errorMessage = 'Invalid OTP. Please try again.';
-        // });
-        // print('Failed: ${response.statusCode}');
+        
       }
     } catch (e) {
       setState(() {

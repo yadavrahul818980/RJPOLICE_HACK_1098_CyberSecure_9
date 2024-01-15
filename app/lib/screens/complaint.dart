@@ -292,14 +292,13 @@ class _ComplaintPageState extends State<ComplaintPage> {
                               ? Image.file(_image!, scale: 4)
                               : Column(
                                   children: [
-                                    Image.asset('assets/document-upload.png',
-                                        scale: 3),
+                                    Image.asset('assets/rahul.png', scale: 3),
                                     SizedBox(height: sheight * 0.025),
                                     Text(
                                       'Upload Your Aadhar Card',
                                       style: TextStyle(
                                         color: Color(0xff00194A),
-                                        fontSize: 23,
+                                        fontSize: 20,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -323,7 +322,7 @@ class _ComplaintPageState extends State<ComplaintPage> {
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Color(0xff4E82EA),
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsets.all(5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             10.0), // Adjust the border radius value

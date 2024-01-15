@@ -61,7 +61,7 @@ class _AppAfterLoginState extends State<NavBar> {
                   ),
                   GButton(
                     icon: Icons.cases_outlined,
-                    text: 'Incident',
+                    text: 'Complain',
                   ),
                   GButton(
                     icon: Icons.account_circle_outlined,

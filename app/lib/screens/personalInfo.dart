@@ -1,3 +1,4 @@
+import 'package:cyber_secure/screens/profile.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:flutter/material.dart';
 
@@ -29,9 +30,19 @@ class _personalState extends State<personal> {
               child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(
-                Icons.arrow_back_ios_new_sharp,
-                size: 22.0,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => profile(),
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.arrow_back_ios_new_sharp,
+                  size: 22.0,
+                ),
               ),
               SizedBox(
                 width: screenWidth * 0.2,
@@ -52,12 +63,12 @@ class _personalState extends State<personal> {
           SizedBox(
             height: screenHeight * 0.01,
           ),
-          personalInfo('assets/User.png', 'Password', 'Change your Password',
-              context, personal()),
-          SizedBox(
-            height: screenHeight * 0.01,
-          ),
-          personalInfo('assets/User.png', 'Share With Your Friends',
+          // personalInfo('assets/User.png', 'Password', 'Change your Password',
+          //     context, personal()),
+          // SizedBox(
+          //   height: screenHeight * 0.01,
+          // ),
+          personalInfo('assets/Password.png', 'Share With Your Friends',
               'Get 3 For Each Invitation!', context, personal()),
           SizedBox(
             height: screenHeight * 0.01,

@@ -5,6 +5,7 @@ import 'package:cyber_secure/screens/incident.dart';
 import 'package:cyber_secure/screens/loginscreen.dart';
 import 'package:cyber_secure/screens/profile.dart';
 import 'package:cyber_secure/screens/splash_screen.dart';
+import 'package:cyber_secure/screens/test.dart';
 import 'package:cyber_secure/screens/trends.dart';
 import 'package:cyber_secure/screens/trendsSearch.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
-      home: const profile(),
+      home: home(),
     );
   }
 }

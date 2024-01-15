@@ -1,8 +1,10 @@
+import 'package:cyber_secure/screens/home.dart';
 import 'package:cyber_secure/screens/loginscreen.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:cyber_secure/screens/personalInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class profile extends StatefulWidget {
   const profile({super.key});
@@ -12,9 +14,39 @@ class profile extends StatefulWidget {
 }
 
 class _profileState extends State<profile> {
+  //
+
+  String? name;
+  String? email;
+
+  Future<void> getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('token');
+
+    if (accessToken != null) {
+      Map<String, dynamic>? decodedToken = JwtDecoder.decode(accessToken);
+
+      if (decodedToken != null) {
+        print('accessToken: $accessToken');
+        print('decoded toke : $decodedToken');
+        setState(() {
+          name = decodedToken['name'];
+          email = decodedToken['email'];
+        });
+      }
+    }
+  }
+
+  //
   Future<void> clearSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserInfo();
   }
 
   @override
@@ -37,10 +69,22 @@ class _profileState extends State<profile> {
               child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(
+              GestureDetector(
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => home(), 
+      ),
+    );
+  },
+  child: Icon(
                 Icons.arrow_back_ios_new_sharp,
                 size: 22.0,
               ),
+),
+
+              
               SizedBox(
                 width: screenWidth * 0.29,
               ),
@@ -57,19 +101,19 @@ class _profileState extends State<profile> {
           ),
           Image.asset(
             'assets/girl.png',
-            scale: 0.9,
+            scale: 4.5,
             // height: screenHeight * 0.032,
           ),
           SizedBox(height: screenHeight * 0.02),
           CustomText(
-            text: 'Rahul Yadav',
+            text: name ?? 'Rahul Yadav',
             fontStyle: null,
             color: Color(0xFF00184A),
             fontSize: 27,
           ),
           SizedBox(height: screenHeight * 0.01),
           CustomText(
-            text: '9058-958-389',
+            text: email ?? '9058-958-389',
             fontStyle: null,
             color: Color(0xFF323142),
             fontSize: 14,
@@ -93,7 +137,7 @@ class _profileState extends State<profile> {
                   children: [
                     Image.asset(
                       'assets/logOut.png',
-                      scale: 1,
+                      scale: 4.5,
                       // height: screenHeight * 0.032,
                     ),
                     SizedBox(width: screenWidth * 0.1),

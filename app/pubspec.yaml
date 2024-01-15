@@ -39,6 +39,7 @@ dependencies:
   dotted_border: ^2.0.2
   google_nav_bar: ^5.0.6
   curved_navigation_bar: ^1.0.3
+  jwt_decoder: ^2.0.0
   # velocity_x: ^3.6.0
 # dependencies:
   
@@ -100,7 +101,7 @@ flutter:
     - assets/background.png
     - assets/phoneNumber.png
     - assets/User.png
-    - assets/mingcute_idcard-fill.png
+    - assets/mingcute_idcard.png
     - assets/Social.png
     - assets/profil.png
     - assets/notification.png
@@ -120,6 +121,7 @@ flutter:
     - assets/Logo.png
     - assets/Chatbot.png
     - assets/cybermitr.png
+    - assets/cybermitr1.png
     - assets/return.png
     - assets/Chatbot.png
     - assets/cybermitr.png
@@ -128,6 +130,24 @@ flutter:
     - assets/Black.png
     - assets/Ellipse 873.png
     - assets/Ellipse 874.png
+    - assets/Tower.png
+    - assets/SIM.png
+    - assets/Ransomware.png
+    - assets/Online.png
+    - assets/Lottery.png
+    - assets/Email.png
+    - assets/Customer.png
+    - assets/DenialOfServices.png
+    - assets/Insurance.png
+    - assets/JobFraud.png
+    - assets/LoanFraud.png
+    - assets/OnlineShopping.png
+    - assets/Crypto.png
+    - assets/Password.png
+    - assets/rahul.png
+    - assets/User1.png
+    
+    
     
 
   #   - images/a_dot_ham.jpeg

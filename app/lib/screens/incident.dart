@@ -19,7 +19,7 @@ class _pageState extends State<page> {
   final TextEditingController _subcatController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   // final TextEditingController _ackController = TextEditingController();
-   String acknowledgementNumber = '';
+  String acknowledgementNumber = '';
   bool _isLoading = false;
   //for date container
   DateTime? selectedDate;
@@ -94,7 +94,7 @@ class _pageState extends State<page> {
       if (response.statusCode == 201) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final message = responseData['message'];
-         acknowledgementNumber = responseData['acknowledgementNumber'];
+        acknowledgementNumber = responseData['acknowledgementNumber'];
         print('Message from API: $message');
         print('acknowledgementNumber: $acknowledgementNumber');
         // Update UI to show success message or navigate to another screen
@@ -111,7 +111,8 @@ class _pageState extends State<page> {
             context,
             MaterialPageRoute(
                 builder: (context) => ComplaintPage(
-                   acknowlwdgementNumber: acknowledgementNumber,)));
+                      acknowlwdgementNumber: acknowledgementNumber,
+                    )));
         // Navigator.push(
         //     context,
         //     MaterialPageRoute(
@@ -454,31 +455,31 @@ class _pageState extends State<page> {
                       child: TextFormField(
                           // TextEditingController? _maincatController,
                           controller: _maincatController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(20, 35, 20, 45),
                             labelText: 'Reason for delay if any?',
-                            labelStyle: const TextStyle(
+                            labelStyle: TextStyle(
                                 color: Color(0xff617193),
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400),
                             isDense: true,
                             border: OutlineInputBorder(
                               // borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               // borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               // borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,
                               ),
@@ -494,30 +495,30 @@ class _pageState extends State<page> {
                       ),
                       child: TextFormField(
                           controller: _subcatController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(20, 35, 20, 45),
                             labelText: 'Additional Information',
-                            labelStyle: const TextStyle(
+                            labelStyle: TextStyle(
                                 color: Color(0xff617193),
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400),
                             border: OutlineInputBorder(
                               // borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               // borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               // borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,
                               ),
@@ -539,7 +540,7 @@ class _pageState extends State<page> {
                         },
                         style: TextButton.styleFrom(
                           backgroundColor: Color(0xff4E82EA),
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(5),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 10.0), // Adjust the border radius value
@@ -565,7 +566,7 @@ class _pageState extends State<page> {
       if (_isLoading)
         Container(
           color: Colors.black.withOpacity(0.5),
-          child: Center(
+          child: const Center(
             child: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4E82EA)),
               strokeWidth: 5.0,

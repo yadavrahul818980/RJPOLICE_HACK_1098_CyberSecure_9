@@ -1,6 +1,7 @@
 // import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cyber_secure/screens/databreach.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -122,9 +123,9 @@ Widget buttonchat(String image, BuildContext context, page) {
           padding: const EdgeInsets.all(7.0),
           child: Image.asset(
             image,
-            // height: screenHeight * 0.1,
-            fit: BoxFit.cover,
-            scale: 1,
+            // height: screenHeight * 0.01,
+            // fit: BoxFit.cover,
+            scale: 5,
           ),
         )),
   );
@@ -290,6 +291,7 @@ Widget buildtextfiled(String image, String text, BuildContext context,
             child: Row(children: [
               Image.asset(
                 image,
+                scale: 4.5,
                 height: screenHeight * 0.032,
               ),
               SizedBox(
@@ -328,13 +330,16 @@ Widget buildtextfiled(String image, String text, BuildContext context,
   );
 }
 
-Widget optionBox(image, text1, text2, height, context, page, scale) {
+Widget optionBox(image, text1, text2, height, context, scale) {
   final screenHeight = MediaQuery.of(context).size.height;
   final screenWidth = MediaQuery.of(context).size.width;
 
   return GestureDetector(
     onTap: () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => databreach(breach: text1 + text2)));
     },
     child: Container(
         height: screenHeight * height,
@@ -638,7 +643,7 @@ Widget settingBox(image, text1, context, page) {
                     children: [
                       Image.asset(
                         image,
-                        scale: 1,
+                        scale: 5,
                         // height: screenHeight * 0.032,
                       ),
 
@@ -703,10 +708,10 @@ Widget personalInfo(image, text1, text2, context, page) {
                 children: [
                   Image.asset(
                     image,
-                    scale: 0.8,
+                    scale: 4.5,
                     // height: screenHeight * 0.032,
                   ),
-                  SizedBox(width: screenWidth * 0.02),
+                  SizedBox(width: screenWidth * 0.035),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

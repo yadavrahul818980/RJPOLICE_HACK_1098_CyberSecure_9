@@ -28,24 +28,11 @@ class _cyberMitrState extends State<cyberMitr> {
               title: Container(
                 child: Row(
                   children: [
-                    // Container(
-                    //     child: GestureDetector(
-                    //   onTap: () {
-                    //     Navigator.push(context,
-                    //         MaterialPageRoute(builder: (context) => home()));
-                    //   },
-                    //   child: Image.asset(
-                    //     'assets/return.png',
-                    //     height: screenHeight * 0.05,
-                    //     // fit: BoxFit.cover,
-                    //     scale: 0.61,
-                    //   ),
-                    // )),
                     Container(
                       child: Image.asset(
                         'assets/cybermitr.png',
                         height: screenHeight * 0.08,
-                        scale: 1,
+                        scale: 4.5,
                       ),
                     ),
                     Container(
@@ -128,8 +115,7 @@ class _TextOnlyState extends State<TextOnly> {
 
     gemini
         // .generateFromText(
-        .generateFromText(
-            '''
+        .generateFromText('''
             
           " now lets play a game in which you will be my application chatbot called cyberMitr & application name is cyber secure  and i will ask you  questions related to cybercrime prevention  .
 U need to follow the rules at any condition . rules are as follows
@@ -860,7 +846,7 @@ West Bengal
 Address: 18, Lalbazar Street, Kolkata - 700001
 Phone: 033-22143000
 Website: www.kolkatapolice.gov.in
-   feed this data 
+   feed this data
 document / guidelines required for If OTP  given
 OTP If given
 
@@ -1248,7 +1234,7 @@ State Cyber Crime Cell, Phase-4 S.A.S Nagar.
 0172-2226258
 
 Additionally, Ludhiana Police has a 24/7 helpdesk at the Sarabha Nagar Police Station.
-Feed this Certainly, here is the information for the cyber staff in Gurugram, Haryana:
+ Feed this Certainly, here is the information for the cyber staff in Gurugram, Haryana:
 
 1. **Sh. Siddhant Jain, IPS**
    - **Post:** DCP South
@@ -1279,7 +1265,7 @@ Feed this Certainly, here is the information for the cyber staff in Gurugram, Ha
    - **Office Tel. No.:** 9289691110
    - **Email:** shocbrcrimemsr.ggn@hry.gov.in
 
-Feed this Certainly, here is the information for the cyber staff in Hisar Range:
+ Feed this Certainly, here is the information for the cyber staff in Hisar Range:
 
 1. **Shrikant Jhadav, IPS**
    - **Designation:** ADGP/Hisar Range, Hisar
@@ -2101,7 +2087,10 @@ these rules are applied on every question user ask each time
               IconButton(
                 icon: loading
                     ? const CircularProgressIndicator()
-                    : const Icon(Icons.send),
+                    : const Icon(
+                        Icons.send,
+                        color: Color(0xFF245BC9),
+                      ),
                 onPressed: () {
                   fromText(query: _textController.text);
                 },
