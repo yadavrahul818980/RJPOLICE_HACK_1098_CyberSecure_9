@@ -1,6 +1,7 @@
 // import 'dart:html';
 
 import 'package:cyber_secure/screens/databreach.dart';
+import 'package:cyber_secure/screens/disclamer.dart';
 import 'package:cyber_secure/screens/documentUpload.dart';
 import 'package:cyber_secure/screens/feed.dart';
 import 'package:cyber_secure/screens/home.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
-      home: home(),
+      home: desclamier(),
     );
   }
 }
