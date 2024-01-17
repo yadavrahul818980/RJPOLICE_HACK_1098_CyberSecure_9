@@ -1,6 +1,8 @@
+import 'package:cyber_secure/screens/navbar.dart';
 import 'package:cyber_secure/screens/profile.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class personal extends StatefulWidget {
   const personal({super.key});
@@ -10,6 +12,17 @@ class personal extends StatefulWidget {
 }
 
 class _personalState extends State<personal> {
+   late SharedPreferences prefs;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +48,7 @@ class _personalState extends State<personal> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => profile(),
+                      builder: (context) => NavBar(),
                     ),
                   );
                 },
@@ -69,12 +82,12 @@ class _personalState extends State<personal> {
           //   height: screenHeight * 0.01,
           // ),
           personalInfo('assets/Password.png', 'Share With Your Friends',
-              'Get 3 For Each Invitation!', context, personal()),
+              'Get 3 For Each Invitation!', context, NavBar()),
           SizedBox(
             height: screenHeight * 0.01,
           ),
           personalInfo('assets/User.png', 'Theme Color',
-              'Change Your Theme Colour', context, personal()),
+              'Change Your Theme Colour', context, NavBar()),
         ],
       ),
     );

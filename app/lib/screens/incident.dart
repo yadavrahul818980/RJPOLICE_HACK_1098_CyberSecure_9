@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cyber_secure/screens/navbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:cyber_secure/screens/complaint.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,17 @@ class _pageState extends State<page> {
   bool _isLoading = false;
   //for date container
   DateTime? selectedDate;
+  late SharedPreferences prefs;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -60,10 +72,17 @@ class _pageState extends State<page> {
     return prefs.getString('token');
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   Future<void> _saveForm() async {
     setState(() {
       _isLoading = true;
     });
+    if (!_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
 
     String? accessToken = await getAccessToken();
 
@@ -200,7 +219,12 @@ class _pageState extends State<page> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NavBar()));
+                          },
                           icon: const Icon(Icons.arrow_back_ios),
                           color: Color(0xff00194A),
                         ),
@@ -242,7 +266,20 @@ class _pageState extends State<page> {
                             'Category of Complaint',
                             'Financial Fraud',
                             'Data Breach',
-                            'Crypto Scams'
+                            'Crypto Scams',
+                            'Insurance Fraud',
+                            'Social Media Crimes',
+                            'Women/Child',
+                            'Job Fraud',
+                            'Loan Fraud',
+                            'Denial of Service',
+                            'Online Shopping Fraud',
+                            'SIM Swapping Fraud',
+                            'Customer Care Fraud',
+                            'E-commerce Related Fraud',
+                            'Tower Installation Fraud',
+                            'Ransomware Attack',
+                            'Phishing',
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -455,6 +492,12 @@ class _pageState extends State<page> {
                       child: TextFormField(
                           // TextEditingController? _maincatController,
                           controller: _maincatController,
+                           validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'This field is required';
+                            }
+                            return null;
+                          },
                           decoration: const InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(20, 35, 20, 45),
                             labelText: 'Reason for delay if any?',
@@ -495,6 +538,12 @@ class _pageState extends State<page> {
                       ),
                       child: TextFormField(
                           controller: _subcatController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'This field is required';
+                            }
+                            return null;
+                          },
                           decoration: const InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(20, 35, 20, 45),
                             labelText: 'Additional Information',

@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:cyber_secure/screens/documentUpload.dart';
+import 'package:cyber_secure/screens/navbar.dart';
 import 'package:cyber_secure/screens/profile.dart';
 import 'package:http/http.dart' as http;
 import 'package:cyber_secure/screens/Utilities.dart';
@@ -27,6 +29,18 @@ class _ComplaintPageState extends State<ComplaintPage> {
   final TextEditingController _nearestController = TextEditingController();
   final TextEditingController _districtController = TextEditingController();
   bool _isLoading = false;
+  late SharedPreferences prefs;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   File? _image;
   Future _getImageFromCamera() async {
     final pickedFile =
@@ -101,9 +115,10 @@ class _ComplaintPageState extends State<ComplaintPage> {
         setState(() {
           _isLoading = false;
         });
+        // _saveId(_image?.path);
         // ignore: use_build_context_synchronously
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const profile()));
+            context, MaterialPageRoute(builder: (context) => const document()));
         // Navigator.push(
         //     context,
         //     MaterialPageRoute(
@@ -113,6 +128,7 @@ class _ComplaintPageState extends State<ComplaintPage> {
         setState(() {
           _isLoading = false;
         });
+        // _saveId(_image?.path);
       } else {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final message = responseData['message'];
@@ -137,6 +153,175 @@ class _ComplaintPageState extends State<ComplaintPage> {
     }
   }
 
+  //
+  // Future<void> _saveId(String? imagePath) async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+
+  //   String? accessToken = await getAccessToken();
+
+  //   if (accessToken == null) {
+  //     // Handle the case where the access token is not available
+  //     return;
+  //   }
+
+  //   final url =
+  //       Uri.https('cyber-secure.onrender.com', '/v1/importantDocuments');
+  //   final Map<String, String> requestBody = {
+  //     'acknowledgementNumber': widget.acknowlwdgementNumber,
+  //     'importantDocument': imagePath ?? '',
+  //   };
+  //   try {
+  //     final response = await http.post(
+  //       url,
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer $accessToken'
+  //       },
+  //       body: jsonEncode(requestBody),
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       final Map<String, dynamic> responseData = json.decode(response.body);
+  //       final message = responseData['message'];
+  //       print('Message from API documentUpload: $message');
+  //       print('acknowlwdgementNumber: ${widget.acknowlwdgementNumber}');
+  //       // Update UI to show success message or navigate to another screen
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text(message),
+  //           duration: const Duration(seconds: 3),
+  //         ),
+  //       );
+  //       setState(() {
+  //         _isLoading = false;
+  //       });
+
+  //       setState(() {
+  //         _isLoading = false;
+  //       });
+  //     } else {
+  //       final Map<String, dynamic> responseData = json.decode(response.body);
+  //       final message = responseData['message'];
+  //       print('Failed: $message');
+  //       // Update UI to show success message or navigate to another screen
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text(message),
+  //           duration: const Duration(seconds: 3),
+  //         ),
+  //       );
+  //       setState(() {
+  //         _isLoading = false;
+  //       });
+  //       // print('Failed: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     print('Error: $e');
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  // }
+
+  Future<void> _saveId(String? imagePath) async {
+    const maxRetries = 3;
+    int retryCount = 0;
+
+    while (retryCount < maxRetries) {
+      try {
+        await _uploadImage(imagePath);
+        return;
+      } catch (e) {
+        print('Error: $e');
+        retryCount++;
+        print('Retrying... Attempt $retryCount of $maxRetries');
+      }
+    }
+
+    print('Max retries reached. Unable to upload image.');
+  }
+
+  Future<void> _uploadImage(String? imagePath) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    String? accessToken = await getAccessToken();
+
+    if (accessToken == null) {
+      // Handle the case where the access token is not available
+      return;
+    }
+
+    final url =
+        Uri.parse('https://cyber-secure.onrender.com/v1/importantDocuments');
+    var request = http.MultipartRequest('POST', url);
+    request.headers.addAll({
+      'Authorization': 'Bearer $accessToken',
+    });
+    print('$accessToken');
+
+    request.fields.addAll({
+      'acknowledgementNumber': widget.acknowlwdgementNumber,
+    });
+
+    if (imagePath != null) {
+      request.files.add(
+          await http.MultipartFile.fromPath('importantDocument', imagePath));
+    }
+
+    try {
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            json.decode(await response.stream.bytesToString());
+        final message = responseData['message'];
+        print('Message from API documentUpload: $message');
+        print('acknowlwdgementNumber: ${widget.acknowlwdgementNumber}');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+        setState(() {
+          _isLoading = false;
+        });
+        // Continue with your navigation or other actions
+      } else {
+        print('Failed: ${response.statusCode}');
+
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'Failed to upload document. Status Code: ${response.statusCode}'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error uploading document'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+//
   @override
   Widget build(BuildContext context) {
     final sheight = MediaQuery.of(context).size.height;
@@ -317,6 +502,7 @@ class _ComplaintPageState extends State<ComplaintPage> {
                   child: ElevatedButton(
                     onPressed: () {
                       _saveComplaintes();
+                      _saveId(_image?.path);
                       // Navigator.pushReplacement(context,
                       // MaterialPageRoute(builder: (context) => profile()));
                     },

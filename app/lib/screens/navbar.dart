@@ -4,7 +4,9 @@ import 'package:cyber_secure/screens/home.dart';
 import 'package:cyber_secure/screens/complaint.dart';
 import 'package:cyber_secure/screens/trendsSearch.dart';
 import 'package:cyber_secure/screens/profile.dart';
+import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -15,6 +17,17 @@ class NavBar extends StatefulWidget {
 
 class _AppAfterLoginState extends State<NavBar> {
   int currentIndex = 0;
+  late SharedPreferences prefs;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   final screens = const [
     home(),
@@ -28,7 +41,7 @@ class _AppAfterLoginState extends State<NavBar> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-        body: SafeArea(child: screens[currentIndex]),
+        body: Expanded(child: screens[currentIndex]),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -45,27 +58,27 @@ class _AppAfterLoginState extends State<NavBar> {
               child: GNav(
                 gap: 8,
                 activeColor: Colors.white,
-                iconSize: 26,
+                iconSize: 25,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 duration: Duration(milliseconds: 400),
                 tabBackgroundColor: Color(0xff4E82EA),
                 color: Colors.grey,
-                tabs: const [
+                tabs: [
                   GButton(
                     icon: Icons.home_outlined,
-                    text: 'Home',
+                    text: 'Home'.tr,
                   ),
                   GButton(
                     icon: Icons.table_view_sharp,
-                    text: 'Analysis',
+                    text: 'Analysis'.tr,
                   ),
                   GButton(
                     icon: Icons.cases_outlined,
-                    text: 'Complain',
+                    text: 'Complain'.tr,
                   ),
                   GButton(
                     icon: Icons.account_circle_outlined,
-                    text: 'Profile',
+                    text: 'Profile'.tr,
                   ),
                 ],
                 selectedIndex: currentIndex,

@@ -1,8 +1,12 @@
+import 'package:cyber_secure/main.dart';
 import 'package:cyber_secure/screens/home.dart';
+import 'package:cyber_secure/screens/language.dart';
 import 'package:cyber_secure/screens/loginscreen.dart';
+import 'package:cyber_secure/screens/navbar.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:cyber_secure/screens/personalInfo.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -14,28 +18,39 @@ class profile extends StatefulWidget {
 }
 
 class _profileState extends State<profile> {
+  late SharedPreferences prefs;
   //
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   String? name;
   String? email;
 
-  Future<void> getUserInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? accessToken = prefs.getString('token');
+  // Future<void> getUserInfo() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? accessToken = prefs.getString('token');
 
-    if (accessToken != null) {
-      Map<String, dynamic>? decodedToken = JwtDecoder.decode(accessToken);
+  //   if (accessToken != null) {
+  //     Map<String, dynamic>? decodedToken = JwtDecoder.decode(accessToken);
 
-      if (decodedToken != null) {
-        print('accessToken: $accessToken');
-        print('decoded toke : $decodedToken');
-        setState(() {
-          name = decodedToken['name'];
-          email = decodedToken['email'];
-        });
-      }
-    }
-  }
+  //     if (decodedToken != null) {
+  //       print('accessToken: $accessToken');
+  //       print('decoded toke : $decodedToken');
+  //       setState(() {
+  //         name = decodedToken['name'];
+  //         email = decodedToken['email'];
+  //       });
+  //     }
+  //   }
+  // }
 
   //
   Future<void> clearSharedPreferences() async {
@@ -43,11 +58,11 @@ class _profileState extends State<profile> {
     await prefs.clear();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getUserInfo();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getUserInfo();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,26 +85,24 @@ class _profileState extends State<profile> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               GestureDetector(
-  onTap: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => home(), 
-      ),
-    );
-  },
-  child: Icon(
-                Icons.arrow_back_ios_new_sharp,
-                size: 22.0,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NavBar(),
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.arrow_back_ios_new_sharp,
+                  size: 22.0,
+                ),
               ),
-),
-
-              
               SizedBox(
                 width: screenWidth * 0.29,
               ),
               CustomText(
-                text: 'Profile',
+                text: 'Profile'.tr,
                 fontStyle: null,
                 color: Color(0xFF00184A),
                 fontSize: 22,
@@ -106,24 +119,29 @@ class _profileState extends State<profile> {
           ),
           SizedBox(height: screenHeight * 0.02),
           CustomText(
-            text: name ?? 'Rahul Yadav',
+            // text: prefs.getString('name')?? 'User',
+            text: PreferencesManager().name ?? 'User',
             fontStyle: null,
             color: Color(0xFF00184A),
             fontSize: 27,
           ),
           SizedBox(height: screenHeight * 0.01),
           CustomText(
-            text: email ?? '9058-958-389',
+            // text: prefs.getString('email') ?? 'xyz@gmail.com',
+            text: PreferencesManager().email ?? 'xyz@gmail.com',
             fontStyle: null,
             color: Color(0xFF323142),
             fontSize: 14,
           ),
-          settingBox('assets/logOut.png', 'Personal Info', context, personal()),
-          settingBox('assets/logOut.png', 'Resolved Cases', context, profile()),
-          settingBox('assets/logOut.png', 'Active Cases', context, profile()),
-          settingBox('assets/logOut.png', 'Saved Articles', context, profile()),
           settingBox(
-              'assets/logOut.png', 'Customer Support', context, profile()),
+              'assets/logOut.png', 'Personal Info'.tr, context, personal()),
+          settingBox(
+              'assets/logOut.png', 'Resolved Cases'.tr, context, profile()),
+          settingBox(
+              'assets/logOut.png', 'Active Cases'.tr, context, profile()),
+          settingBox('assets/logOut.png', 'Language'.tr, context, Language()),
+          settingBox(
+              'assets/logOut.png', 'Customer Support'.tr, context, profile()),
           Padding(
               padding: const EdgeInsets.all(12.0),
               child: GestureDetector(
@@ -142,7 +160,7 @@ class _profileState extends State<profile> {
                     ),
                     SizedBox(width: screenWidth * 0.1),
                     Text(
-                      'Logout',
+                      'Logout'.tr,
                       style: TextStyle(
                         color: Color(0xFF212121),
                         fontSize: 18.37,

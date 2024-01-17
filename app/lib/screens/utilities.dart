@@ -4,20 +4,65 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cyber_secure/screens/databreach.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 
 // import 'package:shared_preferences/shared_preferences.dart';
 
 Widget button(String text, double height, double width, BuildContext context,
-    page, Future<void> Function() onTapFunction) {
+    Future<void> Function() onTapFunction) {
   // final screenHeight = MediaQuery.of(context).size.height;
   // final screenWidth = MediaQuery.of(context).size.width;
 
   return GestureDetector(
     onTap: () async {
       await onTapFunction();
-      if (context.mounted) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
-      }
+      // if (context.mounted) {
+      //   Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+      // }
+      // onTapFunction();
+    },
+    child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment(0.00, -1.00),
+            end: Alignment(0, 1),
+            colors: [Color(0xFF4E82EA), Color(0xFF245BC9)],
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(7)),
+          boxShadow: [
+            BoxShadow(),
+          ],
+        ),
+        height: height,
+        width: width,
+        child: Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w500,
+              // height: 0,
+            ),
+          ),
+        )),
+  );
+}
+
+Widget button3(
+    String text, double height, double width, BuildContext context, page) {
+  // final screenHeight = MediaQuery.of(context).size.height;
+  // final screenWidth = MediaQuery.of(context).size.width;
+
+  return GestureDetector(
+    onTap: () async {
+      // await onTapFunction();
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+
       // onTapFunction();
     },
     child: Container(
@@ -129,6 +174,68 @@ Widget buttonchat(String image, BuildContext context, page) {
           ),
         )),
   );
+}
+
+Widget buttonchat2(String text1, String text2, String text3, String text4,
+    BuildContext context) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
+
+  return GestureDetector(
+      onTap: () {
+        var locale = Locale(text3, text4);
+        Get.updateLocale(locale);
+
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+      },
+      // onTapFunction();
+
+      child: Container(
+          decoration: BoxDecoration(
+            // gradient: LinearGradient(
+            //   // begin: Alignment(0.00, -1.00),
+            //   // end: Alignment(0, 1),
+            //   // width:2;
+            //   // colors: Color(0xFF245BC9),
+            // ),
+
+            borderRadius: BorderRadius.all(Radius.circular(6)),
+            border: Border.all(
+              color: Color(0xFF245BC9), // Set the border color
+              width: 2.0, // Set the border width
+            ),
+
+            // boxShadow: [
+            //   BoxShadow(),
+            // ],
+          ),
+          height: screenHeight * 0.15,
+          width: screenWidth * 0.3,
+          child: Column(children: [
+            SizedBox(height: screenHeight * 0.01),
+            Text(
+              text1,
+              style: TextStyle(
+                color: Color(0xFF245BC9),
+                fontSize: 14,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500,
+                // height: 0,
+              ),
+            ),
+// SizedBox(height: screenHeight * 0.01),
+            Text(
+              text2,
+              style: TextStyle(
+                color: Color(0xFF245BC9),
+                fontSize: 40,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500,
+                // height: 0,
+              ),
+            )
+          ])));
+  // );
 }
 
 // import 'package:flutter/material.dart';

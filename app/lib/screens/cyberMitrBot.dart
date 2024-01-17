@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_gemini/google_gemini.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const apiKey = "AIzaSyC9TxHKC1llcF3kOlcr_Kfk6_PAKCI5t5g";
 
@@ -16,6 +17,17 @@ class cyberMitr extends StatefulWidget {
 }
 
 class _cyberMitrState extends State<cyberMitr> {
+   late SharedPreferences prefs;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;

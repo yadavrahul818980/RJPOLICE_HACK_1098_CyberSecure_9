@@ -1,3 +1,4 @@
+import 'package:cyber_secure/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:cyber_secure/screens/utilities.dart';
@@ -12,15 +13,28 @@ class Login extends StatefulWidget {
 
   @override
   State<Login> createState() => _LoginState();
-  
 }
 
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   bool _isLoading = false;
-  
-  
+
+  //
+  // late SharedPreferences prefs;
+  // // final preferencesManager = PreferencesManager();
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   initSharedPref();
+  // }
+
+  // void initSharedPref() async {
+  //   prefs = await SharedPreferences.getInstance();
+  // }
+
+  //
   Future<void> _saveItem() async {
     setState(() {
       _isLoading = true;
@@ -42,11 +56,9 @@ class _LoginState extends State<Login> {
       //
       print(response.statusCode);
       if (response.statusCode == 201) {
-        
-
         final Map<String, dynamic> responseData = json.decode(response.body);
         final message = responseData['message'];
-        
+
         print('Message from API: $message');
         // Update UI to show success message or navigate to another screen
         ScaffoldMessenger.of(context).showSnackBar(
@@ -55,6 +67,17 @@ class _LoginState extends State<Login> {
             duration: const Duration(seconds: 3),
           ),
         );
+        // prefs.setString('email', _emailController.text);
+        // prefs.setString('name', _nameController.text);
+        PreferencesManager().email = _emailController.text;
+        PreferencesManager().name = _nameController.text;
+        // if (.isNotEmpty) {
+        //   prefs.setString('token', );
+        //   print('Token stored in prefs: $actualAccessToken');
+        // } else {
+        //   // Handle the case where the token is empty
+        //   print('Token is empty');
+        // }
 
         setState(() {
           _isLoading = false;
@@ -65,7 +88,6 @@ class _LoginState extends State<Login> {
               builder: (context) =>
                   otpVerification(email: _emailController.text),
             ));
-       
       } else {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final message = responseData['message'];
@@ -157,7 +179,7 @@ class _LoginState extends State<Login> {
           'assets/User1.png',
           "Name",
           context,
-          "Rahul Yadav",
+          "User",
           false,
           _nameController,
         ),
@@ -165,7 +187,7 @@ class _LoginState extends State<Login> {
           'assets/mingcute_idcard.png',
           "Email",
           context,
-          "9058-958-389",
+          "xyz@gmail.com",
           false,
           _emailController,
         ),
@@ -190,8 +212,7 @@ class _LoginState extends State<Login> {
                 ]),
           ),
         ),
-        button("Sign In", 40.0, 320.0, context,
-            otpVerification(email: _emailController.text), _saveItem)
+        button("Sign In", 40.0, 320.0, context, _saveItem)
       ],
     );
   }

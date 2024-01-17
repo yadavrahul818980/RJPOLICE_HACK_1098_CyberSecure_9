@@ -10,6 +10,7 @@ import 'package:cyber_secure/view/view_model/news_view_model.dart';
 // import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class financialFraud extends StatefulWidget {
@@ -21,6 +22,17 @@ class financialFraud extends StatefulWidget {
 
 class _financialFraudState extends State<financialFraud> {
   NewsViewModel newsViewModel = NewsViewModel();
+   late SharedPreferences prefs;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
   // final format = DateFormat('MMMM dd, yyyy');
 
   String selectedValue = 'Financial Fraud';

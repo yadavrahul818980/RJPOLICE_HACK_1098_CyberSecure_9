@@ -1,4 +1,5 @@
 import 'package:cyber_secure/screens/home.dart';
+import 'package:cyber_secure/screens/language.dart';
 import 'package:cyber_secure/screens/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:cyber_secure/screens/utilities.dart';
@@ -42,6 +43,7 @@ class _otpVerificationState extends State<otpVerification> {
     // http.post(url,headers:{}, body: json.encode({
     final Map<String, String> requestBody = {
       'email': widget.email,
+      // 'email': '${prefs.getString('email')}',
       'otp': _otpController.text,
     };
     try {
@@ -108,7 +110,7 @@ class _otpVerificationState extends State<otpVerification> {
 
         print('Success: ${response.body}');
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NavBar()));
+            context, MaterialPageRoute(builder: (context) => Language()));
       } else {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final message = responseData['message'];
@@ -124,7 +126,6 @@ class _otpVerificationState extends State<otpVerification> {
         setState(() {
           _isLoading = false;
         });
-        
       }
     } catch (e) {
       setState(() {
@@ -190,7 +191,7 @@ class _otpVerificationState extends State<otpVerification> {
           fontfamily: 'Poppins',
         ),
         const CustomText(
-          text: "We Have Sent code To Your Phone Number",
+          text: "We Have Sent code To Your Email",
           color: Color(0xFFA0A0A0),
           fontSize: 14,
           fontStyle: null,
