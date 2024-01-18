@@ -12,19 +12,15 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Analysis extends StatefulWidget {
-  const Analysis({super.key});
+class Remainder extends StatefulWidget {
+  const Remainder({super.key});
   // late SharedPreferences prefs;
 
   @override
-  State<Analysis> createState() => _AnalysisState();
+  State<Remainder> createState() => _RemainderState();
 }
 
-class _AnalysisState extends State<Analysis> {
-  // final TextEditingController _emailController = TextEditingController();
-  // final TextEditingController _nameController = TextEditingController();
-  // bool _isLoading = false;
-
+class _RemainderState extends State<Remainder> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -42,16 +38,6 @@ class _AnalysisState extends State<Analysis> {
             body: ListView(
               children: [buildheading(context)],
             )),
-        // if (_isLoading)
-        //   Container(
-        //     color: Colors.black.withOpacity(0.5),
-        //     child: Center(
-        //       child: CircularProgressIndicator(
-        //         valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4E82EA)),
-        //         strokeWidth: 5.0,
-        //       ),
-        //     ),
-        //   ),
       ],
     );
   }
@@ -76,7 +62,7 @@ class _AnalysisState extends State<Analysis> {
             Padding(
               padding: EdgeInsets.only(left: 50),
               child: Text(
-                'Analysis',
+                'Reminders',
                 style: TextStyle(
                   fontSize: 23,
                   fontWeight: FontWeight.w500,
@@ -86,34 +72,32 @@ class _AnalysisState extends State<Analysis> {
             ),
           ],
         ),
-        // SizedBox(height: screenHeight * 0.1),
-        // const CustomText(
-        //   text: "Incident Details",
-        //   color: const Color(0xFF245BC9),
-        //   fontSize: 20,
-        //   fontStyle: null,
-        //   fontfamily: '',
-        // ),
-        SizedBox(height: screenHeight * 0.02),
+        SizedBox(height: screenHeight * 0.01),
+        notification('Your cyber crime report is on Progress', '8:45',
+            'assets/message.png', context),
+        SizedBox(height: screenHeight * 0.01),
+        notification('Your cyber crime report is on Progress', '8:45',
+            'assets/message.png', context),
+        SizedBox(height: screenHeight * 0.01),
+        notification('Your cyber crime report is on Progress', '8:45',
+            'assets/message.png', context),
+        SizedBox(height: screenHeight * 0.01),
+        notification('Your cyber crime report is on Progress', '8:45',
+            'assets/message.png', context),
+        SizedBox(height: screenHeight * 0.01),
+        notification('Your cyber crime report is on Progress', '8:45',
+            'assets/message.png', context),
+        SizedBox(height: screenHeight * 0.01),
+        notification('Your cyber crime report is on Progress', '8:45',
+            'assets/message.png', context),
+        SizedBox(height: screenHeight * 0.01),
+        notification('Your cyber crime report is on Progress', '8:45',
+            'assets/message.png', context),
+        SizedBox(height: screenHeight * 0.01),
+        notification('Your cyber crime report is on Progress', '8:45',
+            'assets/message.png', context),
 
-        graph('assets/gambar1.png', 'No. of Cases vs Types of CyberCrimes',
-            context),
-
-        SizedBox(height: screenHeight * 0.02),
-
-        graph('assets/gambar2.png', 'No. of Cases vs Motive', context),
-        SizedBox(height: screenHeight * 0.02),
-
-        graph(
-            'assets/gambar3.png', 'No. of Cases vs Types of offence ', context),
-        SizedBox(height: screenHeight * 0.02),
-
-        graph('assets/gambar4.png', 'No. of Cases vs Types of cyber crimes',
-            context),
-        SizedBox(height: screenHeight * 0.02),
-
-        graph('assets/gambar5.png', 'No. of Cases vs Types of cyber crimes',
-            context),
+        SizedBox(height: screenHeight * 0.04),
         // button3("I Accept", 40.0, 320.0, context, page()),
       ],
     );

@@ -71,6 +71,7 @@ class _LoginState extends State<Login> {
         // prefs.setString('name', _nameController.text);
         PreferencesManager().email = _emailController.text;
         PreferencesManager().name = _nameController.text;
+        
         // if (.isNotEmpty) {
         //   prefs.setString('token', );
         //   print('Token stored in prefs: $actualAccessToken');

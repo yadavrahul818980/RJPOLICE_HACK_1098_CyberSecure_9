@@ -1,8 +1,10 @@
 import 'package:cyber_secure/main.dart';
 import 'package:cyber_secure/screens/home.dart';
 import 'package:cyber_secure/screens/language.dart';
+import 'package:cyber_secure/screens/laywer.dart';
 import 'package:cyber_secure/screens/loginscreen.dart';
 import 'package:cyber_secure/screens/navbar.dart';
+import 'package:cyber_secure/screens/test.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:cyber_secure/screens/personalInfo.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +104,7 @@ class _profileState extends State<profile> {
                 width: screenWidth * 0.29,
               ),
               CustomText(
-                text: 'Profile'.tr,
+                text: 'Profile',
                 fontStyle: null,
                 color: Color(0xFF00184A),
                 fontSize: 22,
@@ -134,14 +136,14 @@ class _profileState extends State<profile> {
             fontSize: 14,
           ),
           settingBox(
-              'assets/logOut.png', 'Personal Info'.tr, context, personal()),
+              'assets/logOut.png', 'Personal Info', context, personal()),
           settingBox(
-              'assets/logOut.png', 'Resolved Cases'.tr, context, profile()),
+              'assets/logOut.png', 'Resolved Cases', context, profile()),
           settingBox(
-              'assets/logOut.png', 'Active Cases'.tr, context, profile()),
-          settingBox('assets/logOut.png', 'Language'.tr, context, Language()),
+              'assets/logOut.png', 'Active Cases', context, profile()),
+          settingBox('assets/logOut.png', 'Language', context, NavBar()),
           settingBox(
-              'assets/logOut.png', 'Customer Support'.tr, context, profile()),
+              'assets/logOut.png', 'Lawyers', context, lawyer()),
           Padding(
               padding: const EdgeInsets.all(12.0),
               child: GestureDetector(
@@ -160,7 +162,7 @@ class _profileState extends State<profile> {
                     ),
                     SizedBox(width: screenWidth * 0.1),
                     Text(
-                      'Logout'.tr,
+                      'Logout',
                       style: TextStyle(
                         color: Color(0xFF212121),
                         fontSize: 18.37,

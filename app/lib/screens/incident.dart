@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cyber_secure/main.dart';
 import 'package:cyber_secure/screens/navbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:cyber_secure/screens/complaint.dart';
@@ -72,17 +73,17 @@ class _pageState extends State<page> {
     return prefs.getString('token');
   }
 
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
 
   Future<void> _saveForm() async {
     setState(() {
       _isLoading = true;
     });
-    if (!_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    // if (!_formKey.currentState!.validate()) {
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    // }
 
     String? accessToken = await getAccessToken();
 
@@ -105,7 +106,7 @@ class _pageState extends State<page> {
         url,
         headers: <String, String>{
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $accessToken'
+          'Authorization': 'Bearer ${PreferencesManager().token}'
         },
         body: jsonEncode(requestBody),
       );
@@ -116,6 +117,7 @@ class _pageState extends State<page> {
         acknowledgementNumber = responseData['acknowledgementNumber'];
         print('Message from API: $message');
         print('acknowledgementNumber: $acknowledgementNumber');
+        PreferencesManager().ack = acknowledgementNumber;
         // Update UI to show success message or navigate to another screen
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -487,17 +489,16 @@ class _pageState extends State<page> {
                     ),
                     Container(
                       constraints: BoxConstraints(
-                        maxHeight: sheight * 0.6, // Set the maximum height
+                        maxHeight: sheight * 0.6,
                       ),
                       child: TextFormField(
-                          // TextEditingController? _maincatController,
                           controller: _maincatController,
-                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'This field is required';
-                            }
-                            return null;
-                          },
+                          //  validator: (value) {
+                          //   if (value == null || value.isEmpty) {
+                          //     return 'This field is required';
+                          //   }
+                          //   return null;
+                          // },
                           decoration: const InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(20, 35, 20, 45),
                             labelText: 'Reason for delay if any?',
@@ -507,21 +508,18 @@ class _pageState extends State<page> {
                                 fontWeight: FontWeight.w400),
                             isDense: true,
                             border: OutlineInputBorder(
-                              // borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              // borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              // borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,
@@ -538,12 +536,12 @@ class _pageState extends State<page> {
                       ),
                       child: TextFormField(
                           controller: _subcatController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'This field is required';
-                            }
-                            return null;
-                          },
+                          // validator: (value) {
+                          //   if (value == null || value.isEmpty) {
+                          //     return 'This field is required';
+                          //   }
+                          //   return null;
+                          // },
                           decoration: const InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(20, 35, 20, 45),
                             labelText: 'Additional Information',
@@ -552,21 +550,18 @@ class _pageState extends State<page> {
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400),
                             border: OutlineInputBorder(
-                              // borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              // borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              // borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
                                 color: Color(0xff00194A),
                                 width: 1,

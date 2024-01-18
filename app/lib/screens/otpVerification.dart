@@ -1,6 +1,8 @@
+import 'package:cyber_secure/main.dart';
 import 'package:cyber_secure/screens/home.dart';
 import 'package:cyber_secure/screens/language.dart';
 import 'package:cyber_secure/screens/navbar.dart';
+import 'package:cyber_secure/screens/test.dart';
 import 'package:flutter/material.dart';
 import 'package:cyber_secure/screens/utilities.dart';
 import 'package:cyber_secure/screens/background_img.dart';
@@ -84,6 +86,7 @@ class _otpVerificationState extends State<otpVerification> {
         String actualAccessToken = accessToken.substring("accesstoken=".length);
 
         print('Access Token from Cookie: $actualAccessToken');
+        PreferencesManager().token = actualAccessToken;
 
         if (actualAccessToken.isNotEmpty) {
           prefs.setString('token', actualAccessToken);
@@ -110,7 +113,8 @@ class _otpVerificationState extends State<otpVerification> {
 
         print('Success: ${response.body}');
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Language()));
+            context, MaterialPageRoute(builder: (context) => NavBar()));
+            // context, MaterialPageRoute(builder: (context) => Language()));
       } else {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final message = responseData['message'];

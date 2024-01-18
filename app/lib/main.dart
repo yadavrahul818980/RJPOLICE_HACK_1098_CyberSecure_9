@@ -1,20 +1,24 @@
 // import 'dart:html';
 
+import 'package:cyber_secure/screens/analysis.dart';
 import 'package:cyber_secure/screens/databreach.dart';
 import 'package:cyber_secure/screens/disclamer.dart';
 import 'package:cyber_secure/screens/documentUpload.dart';
 import 'package:cyber_secure/screens/feed.dart';
+import 'package:cyber_secure/screens/guidline.dart';
 import 'package:cyber_secure/screens/home.dart';
 import 'package:cyber_secure/screens/incident.dart';
 import 'package:cyber_secure/screens/language.dart';
 import 'package:cyber_secure/screens/laywer.dart';
 import 'package:cyber_secure/screens/localStrings.dart';
 import 'package:cyber_secure/screens/loginscreen.dart';
+import 'package:cyber_secure/screens/notification.dart';
 import 'package:cyber_secure/screens/profile.dart';
 import 'package:cyber_secure/screens/splash_screen.dart';
 import 'package:cyber_secure/screens/test.dart';
 import 'package:cyber_secure/screens/trends.dart';
 import 'package:cyber_secure/screens/trendsSearch.dart';
+import 'package:cyber_secure/screens/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:google_gemini/google_gemini.dart';
 import 'dart:io';
@@ -36,15 +40,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      translations: LocalString(),
-      locale: Locale('en', 'US'),
+    return MaterialApp(
+      // translations: LocalString(),
+      // locale: Locale('en', 'US'),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
-      home: desclamier(),
+      home: SplashScreen(),
     );
   }
 }
@@ -86,6 +90,10 @@ class PreferencesManager {
 
   String get name => _prefs.getString('name') ?? '';
   set name(String value) => _prefs.setString('name', value);
+  String get token => _prefs.getString('token') ?? '';
+  set token(String value) => _prefs.setString('token', value);
+  String get ack => _prefs.getString('ack') ?? '';
+  set ack(String value) => _prefs.setString('ack', value);
 
   // add more methods as needed
 }

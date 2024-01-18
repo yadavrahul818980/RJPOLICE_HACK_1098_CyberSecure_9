@@ -95,8 +95,8 @@
 //   }
 // }
 
-
-
+import 'package:cyber_secure/screens/analysis.dart';
+import 'package:cyber_secure/screens/disclamer.dart';
 import 'package:cyber_secure/screens/incident.dart';
 import 'package:flutter/material.dart';
 import 'package:cyber_secure/screens/home.dart';
@@ -114,10 +114,11 @@ class NavBar extends StatefulWidget {
 class _AppAfterLoginState extends State<NavBar> {
   int currentIndex = 0;
 
-  final screens = const  [
+  final screens = const [
     home(),
-    CustomDropDownWidget(),
-    page(),
+    Analysis(),
+    // CustomDropDownWidget(),
+    desclamier(),
     profile(),
   ];
 
@@ -142,7 +143,8 @@ class _AppAfterLoginState extends State<NavBar> {
                 gap: 8,
                 activeColor: Colors.white,
                 iconSize: 26,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
                 duration: const Duration(milliseconds: 400),
                 tabBackgroundColor: const Color(0xff4E82EA),
                 color: Colors.grey,
@@ -157,7 +159,7 @@ class _AppAfterLoginState extends State<NavBar> {
                   ),
                   GButton(
                     icon: Icons.cases_outlined,
-                    text: 'Incident',
+                    text: 'Complaint',
                   ),
                   GButton(
                     icon: Icons.account_circle_outlined,
